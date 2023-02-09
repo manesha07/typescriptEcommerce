@@ -15,6 +15,7 @@ class DBModel {
     this.connection = connection;
   }
 
+
     async getAll(pageNumber: number, itemsPerPage: number): Promise<any> {
     const data = await connection(this.table)
       .select('*')
@@ -23,8 +24,6 @@ class DBModel {
 
     return data;
   }
-
-
   async getById(id: number): Promise<any | null> {
     const [data] = await connection(this.table).select('*').where('id', id);
 

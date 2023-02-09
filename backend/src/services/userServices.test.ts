@@ -1,7 +1,7 @@
 import test from 'ava';
 import sinon from 'sinon';
-import User from "../models/user.js"
-import { deleteUserById, registerUser,getAllUsers,updateUserById, getUserDetails } from './userServices.js'
+import User from "../models/user"
+import { deleteUserById, registerUser,getAllUsers,updateUserById, getUserDetails } from './userServices'
 
 test.serial('getAllUsers should return all data', async (t) => {
   const mockData=[{ id: 1, name: 'manisha' }, { id: 2, name: 'sujata' }]

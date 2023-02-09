@@ -33,7 +33,7 @@ export function getAllProducts(req: Request, res: Response, next: NextFunction) 
 
 //get product details
 
-export function getProductDetails(req: Request, res: Response, next: NextFunction) {
+export function getProductDetails(req: Request<{id: number}>, res: Response, next: NextFunction) {
   const product = req.params.id;
   productService
     .getProductDetails(req.params.id)
@@ -43,7 +43,7 @@ export function getProductDetails(req: Request, res: Response, next: NextFunctio
 
 //Update product  -- only for Admin
 
-export function updateProduct(req: Request, res: Response, next: NextFunction) {
+export function updateProduct(req: Request<{id: number}>, res: Response, next: NextFunction) {
   productService
     .updateProduct(req.params.id, req.body)
     .then((data) => res.json(data))
@@ -52,7 +52,7 @@ export function updateProduct(req: Request, res: Response, next: NextFunction) {
 
 //Delete Product
 
-export function deleteProduct(req: Request, res: Response, next: NextFunction) {
+export function deleteProduct(req: Request<{id: number}>, res: Response, next: NextFunction) {
   productService
     .deleteProduct(req.params.id)
     .then((data) => res.json(data))

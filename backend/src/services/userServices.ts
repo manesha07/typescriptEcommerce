@@ -1,10 +1,10 @@
 import Boom from "@hapi/boom";
 
-import User from "../models/user.js"
+import User from "../models/user"
 import Checkout from "../models/checkout.js";
-import { hash, compare, createToken } from '../utils/crypt.js';
+import { hash, compare, createToken } from '../utils/crypt';
 
-export async function registerUser(data) {
+export async function registerUser(data :object) {
     const existingUser = await new User().findByParams(data);
     if (existingUser) {
         throw Boom.badRequest('User already exist');
@@ -18,8 +18,7 @@ export async function registerUser(data) {
     }
 }
 
-export async function saveUser(data) {
-    const { id ,name,username,address,password,email} =data;
+export async function saveUser(data : object) {
 
     const existingUser = await new User().findByParams(data);
     if (existingUser) {
@@ -43,7 +42,7 @@ export async function getAllUsers(pageNumber = 1, itemsPerPage = 10) {
   };
 }
 
-export async function getUserDetails(id) {
+export async function getUserDetails(id :number) {
     const insertedData = await new User().getById(id);
     if (!insertedData) {
       throw Boom.badRequest("User not Found");
@@ -55,11 +54,11 @@ export async function getUserDetails(id) {
   }
   
 
-export async function updateUserById(id,data) {
+export async function updateUserById(id :number,data :any) {
   const oldData = await new User().findByParams({id:id});
 
   const updatedData = {
-    name:data.name || oldData.name,
+    name:data.name  || oldData.name,
     email:data.email || oldData.email,
     username:data.username || oldData.username,
     password:data.password || oldData.password,
@@ -72,7 +71,7 @@ export async function updateUserById(id,data) {
     }
 }
 
-export async function deleteUserById(id) {
+export async function deleteUserById(id:number) {
     const returnedData = await new User().removeById(id);
 
     return {
@@ -87,12 +86,11 @@ export async function deleteUserById(id) {
  * @param {Object} params
  * @return {Object}
  */
-export async function login(params) {
-    const { username, password } = params;
+export async function login(params :object) {
     const existingUser = await new User().findByParams(params);
     if (!existingUser) {
    
-      throw new Boom.badRequest('Invalid credentials');
+      throw new (Boom.badRequest as any)('Invalid credentials') ;
     }
      
     const user = {
@@ -111,8 +109,7 @@ export async function login(params) {
 
 
 
-  export async function saveCheckout(data) {
-    const { id, name, address, phone, email } = data;
+  export async function saveCheckout(data :object) {
 
     const insertedData = await new Checkout().save(data);
 

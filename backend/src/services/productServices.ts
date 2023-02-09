@@ -1,6 +1,6 @@
 import Boom from "@hapi/boom";
 
-import Product from "../models/product.js";
+import Product from "../models/product";
 
 
 export interface ProductData {

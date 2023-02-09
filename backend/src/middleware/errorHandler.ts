@@ -1,4 +1,5 @@
-import HttpStatusCodes from 'http-status-codes'
+import HttpStatusCodes from 'http-status-codes';
+import { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
 /**
  * Generic error handling middleware.
@@ -8,13 +9,13 @@ import Joi from 'joi';
  * @param {Object} res
  * @param {Function} next
  */
-export default function (err, req, res, next) {
+export default function (err:any, req: Request, res: Response, next: NextFunction) {
     const error = buildError(err);
   
     res.status(error.code).json(error);
   }
 
-  function buildError(err) {
+  function buildError(err:any) {
 
       // Check if the error is Joi and handle accordingly
   if (Joi.isError(err)) {

@@ -37,7 +37,8 @@ export function getAllAdmins(req: Request, res: Response, next: NextFunction) {
  * @param {express.Response} res - send the response back to the client
  * @param {express.NextFunction} next  - middleware function is called if err is thrown
  */
-export function updateAdmin (req: Request, res: Response, next: NextFunction) {
+
+export function updateAdmin (req: Request<{adminIdentifier: number}>, res: Response, next: NextFunction) :void {
     // console.log("req",req.params.adminIdentifier,req.body)
     adminService.updateAdminById(req.params.adminIdentifier,req.body)
     .then((data) => res.json(data))
@@ -51,7 +52,7 @@ export function updateAdmin (req: Request, res: Response, next: NextFunction) {
  * @param {express.Response} res - send the response back to the client
  * @param {express.NextFunction} next  - middleware function is called if err is thrown
  */
-export function deleteAdmin (req: Request, res: Response, next: NextFunction) {
+export function deleteAdmin (req: Request<{adminIdentifier: number}>, res: Response, next: NextFunction) {
     adminService.deleteAdminById(req.params.adminIdentifier)
     .then((data) => res.json(data))
     .catch((err) => next(err))
