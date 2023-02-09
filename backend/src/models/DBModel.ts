@@ -16,6 +16,13 @@ class DBModel {
   }
 
 
+
+  async getAll1(): Promise<any> {
+    const data = await connection(this.table)
+      .select('*');
+
+    return data;
+  }
     async getAll(pageNumber: number, itemsPerPage: number): Promise<any> {
     const data = await connection(this.table)
       .select('*')

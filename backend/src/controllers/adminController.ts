@@ -38,7 +38,7 @@ export function getAllAdmins(req: Request, res: Response, next: NextFunction) {
  * @param {express.NextFunction} next  - middleware function is called if err is thrown
  */
 
-export function updateAdmin (req: Request<{adminIdentifier: number}>, res: Response, next: NextFunction) :void {
+export function updateAdmin (req: Request<{adminIdentifier: any}>, res: Response, next: NextFunction) :void {
     // console.log("req",req.params.adminIdentifier,req.body)
     adminService.updateAdminById(req.params.adminIdentifier,req.body)
     .then((data) => res.json(data))

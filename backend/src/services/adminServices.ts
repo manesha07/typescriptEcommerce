@@ -33,7 +33,7 @@ export async function saveAdmin(data :any) {
  * @returns {Object} {data: returnedData ,message: 'Succesfully fetched all data'}
  */
 export async function getAllAdmins() {
-    const returnedData = await new Admin().getAll();
+    const returnedData = await new Admin().getAll1();
 
     return {
         data: returnedData,

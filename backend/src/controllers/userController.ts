@@ -30,9 +30,9 @@ export function checkoutUser(req: Request, res: Response, next: NextFunction) {
  * @param {Object} res
  * @param {Function} next
  */
-export function getAllUsers(req: Request, res: Response, next: NextFunction) {
-    const pageNumber  = req.query.page || 1;
-    const itemsPerPage = req.query.limit || 10;
+export function getAllUsers(req: Request<{page: any,limit:any}>, res: Response, next: NextFunction) {
+    const pageNumber :any = req.query.page || 1;
+    const itemsPerPage :any= req.query.limit || 10;
     userService
       .getAllUsers(pageNumber, itemsPerPage)
       .then((data) => res.json(data))
@@ -47,13 +47,13 @@ export function getAllUsers(req: Request, res: Response, next: NextFunction) {
       .catch((err) => next(err));
   }
 
-export function updateUser (req: Request<{userIdentifier: number}>, res: Response, next: NextFunction) {
+export function updateUser (req: Request<{userIdentifier: any}>, res: Response, next: NextFunction) {
     userService.updateUserById(req.params.userIdentifier,req.body)
     .then((data) => res.json(data))
     .catch((err) => next(err))
 }
 
-export function deleteUser (req:  Request<{userIdentifier: number}>, res: Response, next: NextFunction) {
+export function deleteUser (req:  Request<{userIdentifier: any}>, res: Response, next: NextFunction) {
     userService.deleteUserById(req.params.userIdentifier)
     .then((data) => res.json(data))
     .catch((err) => next(err))

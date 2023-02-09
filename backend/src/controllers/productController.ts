@@ -21,9 +21,9 @@ export function createProduct(req: Request, res: Response, next: NextFunction) {
 
 
 
-export function getAllProducts(req: Request, res: Response, next: NextFunction) {
-  const pageNumber= req.query.page || 1;
-  const itemsPerPage = req.query.limit || 10;
+export function getAllProducts(req:  Request<{page: any,limit:any}>, res: Response, next: NextFunction) {
+  const pageNumber :any= req.query.page || 1;
+  const itemsPerPage :any= req.query.limit || 10;
 
   productService
     .getAllProducts(pageNumber, itemsPerPage)
@@ -43,7 +43,7 @@ export function getProductDetails(req: Request<{id: number}>, res: Response, nex
 
 //Update product  -- only for Admin
 
-export function updateProduct(req: Request<{id: number}>, res: Response, next: NextFunction) {
+export function updateProduct(req: Request<{id: any}>, res: Response, next: NextFunction) {
   productService
     .updateProduct(req.params.id, req.body)
     .then((data) => res.json(data))
@@ -52,7 +52,7 @@ export function updateProduct(req: Request<{id: number}>, res: Response, next: N
 
 //Delete Product
 
-export function deleteProduct(req: Request<{id: number}>, res: Response, next: NextFunction) {
+export function deleteProduct(req: Request<{id: any}>, res: Response, next: NextFunction) {
   productService
     .deleteProduct(req.params.id)
     .then((data) => res.json(data))
