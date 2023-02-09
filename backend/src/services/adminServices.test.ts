@@ -1,7 +1,7 @@
 import test from "ava";
 import sinon from "sinon";
-import Admin from "../models/admin.js";
-import { deleteAdminById, getAllAdmins, saveAdmin } from "./adminServices.js";
+import Admin from "../models/admin";
+import { deleteAdminById, getAllAdmins, saveAdmin } from "./adminServices";
 
 
 //Delete  Admin:

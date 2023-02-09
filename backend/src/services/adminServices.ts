@@ -1,15 +1,16 @@
 import Boom from "@hapi/boom";
-import { registerAdmin } from "../controllers/adminController.js";
+import { string } from "joi";
+import { registerAdmin } from "../controllers/adminController";
 
-import Admin from "../models/admin.js"
-import { hash, compare, createToken } from '../utils/crypt.js';
+import Admin from "../models/admin"
+import { hash, compare, createToken } from '../utils/crypt';
 
 /**
  * 
  * @param {Object} data - details of admin to save admin
  * @returns 
  */
-export async function saveAdmin(data) {
+export async function saveAdmin(data :any) {
     const { id ,name,username,address,password,email} =data;
     const existingUser = await new Admin().findByParams({name:name ,username:username,email:email});
 
@@ -47,7 +48,7 @@ export async function getAllAdmins() {
  * @param {Object} data - data that needs to be updated
  * @returns {Object}{data: returnedData,message: 'Succesfully updated admin'}
  */
-export async function updateAdminById(id,data) {
+export async function updateAdminById(id :number,data :any) {
     const returnedData = await new Admin().updateById(id,data);
 
     return {
@@ -62,7 +63,7 @@ export async function updateAdminById(id,data) {
  * @param {Number} id - id of admin to delete
  * @returns {Object} { data: 1,message: 'Succesfully deleted admin'}
  */
-export async function deleteAdminById(id) {
+export async function deleteAdminById(id :number) {
     const returnedData = await new Admin().removeById(id);
 
     return {
@@ -77,7 +78,13 @@ export async function deleteAdminById(id) {
  * @param {Object} params - details for login
  * @return {Object}  { data: { token, user }, message: "Admin Logged in succesfully",};
  */
-export async function login(params) {
+
+  type params = {
+    username:String,
+    password :String
+  }
+
+export async function login(params :{username:string,password :string}) {
     const { username, password } = params;
 
      if (!username || !password) {
@@ -90,14 +97,13 @@ export async function login(params) {
     const existingUser = await new Admin().findByParams({username:params.username});
     if (!existingUser) {
    
-      throw new Boom.badRequest('Invalid credentials');
+      throw new (Boom.badRequest as any)('Invalid credentials');
     }
-    const doesPasswordMatch = compare(password, existingUser.password);
+    const doesPasswordMatch = compare(password , existingUser.password);
   
     if (!doesPasswordMatch) {
-      logger.error('Invalid credentials: Password does not match');
   
-      throw new Boom.badRequest('Invalid credentials');
+      throw new (Boom.badRequest as any)('Invalid credentials');
     }
 
     const user = {

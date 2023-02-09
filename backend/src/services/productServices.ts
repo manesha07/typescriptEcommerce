@@ -1,9 +1,9 @@
 import Boom from "@hapi/boom";
 
-import Product from "../models/product.js";
+import Product from "../models/product";
 
 //Create Product-- only for Admin
-export async function createProduct(data) {
+export async function createProduct(data:object) {
   const insertedData = await new Product().save(data);
 
   return {
@@ -39,7 +39,7 @@ message: "Find all Products sucessfully",
 }
 
 //get product details
-export async function getProductDetails(id) {
+export async function getProductDetails(id:number) {
   const insertedData = await new Product().getById(id);
   if (!insertedData) {
     throw Boom.badRequest("Book not Found");
@@ -51,7 +51,7 @@ export async function getProductDetails(id) {
 }
 
 //Update product  -- only for Admin
-export async function updateProduct(id, data) {
+export async function updateProduct(id :number, data :any) {
   const oldData = await new Product().findByParams({id:id});
 
   const updatedData = {
@@ -62,7 +62,7 @@ export async function updateProduct(id, data) {
     category:data.category || oldData.category,
     images:data.images || oldData.image}
 
-  const insertedData = await new Product().updateById(id, updatedData);
+  const insertedData = await new Product().updateById(id, updatedData );
   if (!insertedData) {
     throw Boom.badRequest("Book/product not Found");
   }
@@ -73,7 +73,7 @@ export async function updateProduct(id, data) {
 }
 
 //Delete Product
-export async function deleteProduct(id) {
+export async function deleteProduct(id: number): Promise<{ data: any; message: string; }> {
   const returnedData = await new Product().removeById(id);
  
   return {

@@ -1,4 +1,4 @@
-import DBModel from './DBModel.js';
+import DBModel from './DBModel';
 
 /**
  * Model for the 'manufacturers' table.
