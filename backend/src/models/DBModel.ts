@@ -1,9 +1,4 @@
-import camelize from 'camelize';
-import snakeize from 'snakeize';
-
-import {connection} from '../knexfile.js';
-
-// console.log("knex connection",Knex(connection))
+import { connection } from '../knexfile';
 
 /**
  * Base model for that can be used for all tables.
@@ -12,58 +7,65 @@ import {connection} from '../knexfile.js';
  */
 
 class DBModel {
-  constructor(table) {
+  table: string;
+  connection: any;
+
+  constructor(table: string) {
     this.table = table;
     this.connection = connection;
   }
 
-  async getAll() {
-    const data = await connection(this.table).select('*');
+    async getAll(pageNumber: number, itemsPerPage: number): Promise<any> {
+    const data = await connection(this.table)
+      .select('*')
+      .limit(itemsPerPage)
+      .offset((pageNumber - 1) * itemsPerPage);
 
-    return camelize(data);
+    return data;
   }
 
-  async getById(id) {
+
+  async getById(id: number): Promise<any | null> {
     const [data] = await connection(this.table).select('*').where('id', id);
 
-    return data ? camelize(data) : null;
+    return data ? data : null;
   }
 
-  async findByParams(params) {
-    const [data] = await connection(this.table).select('*').where(snakeize(params));
+  async findByParams(params: any): Promise<any | null> {
+    const [data] = await connection(this.table).select('*').where(params);
 
-    return data ? camelize(data) : null;
+    return data ? data : null;
   }
 
-  async save(data) {
-    const result = await connection(this.table).insert(snakeize(data)).returning('*');
+  async save(data: any): Promise<any> {
+    const result = await connection(this.table).insert(data).returning('*');
 
-    return camelize(result);
+    return result;
   }
 
-  async updateById(id, data) {
-    const result = await connection(this.table).update(snakeize(data)).where({ id }).returning('*');
+  async updateById(id: number, data: any): Promise<any> {
+    const result = await connection(this.table).update(data).where({ id }).returning('*');
 
-    return camelize(result);
+    return result;
   }
 
-  async removeById(id) {
-    console.log("llllllif",id);
+  async removeById(id: number): Promise<any> {
+    console.log("llllllif", id);
     const result = await connection(this.table).delete().where({ id });
-      console.log("llllll",result);
-    return camelize(result);
+    console.log("llllll", result);
+    return result;
   }
 
-  async removeByParams(params) {
-    const result = await connection(this.table).delete().where(snakeize(params));
-    console.log("result1",result);
-    return camelize(result);
+  async removeByParams(params: any): Promise<any> {
+    const result = await connection(this.table).delete().where(params);
+    console.log("result1", result);
+    return result;
   }
 
-  async query(sql, params) {
+  async query(sql: string, params: any): Promise<any> {
     const result = await connection.raw(sql, params);
 
-    return camelize(result.rows);
+    return result.rows;
   }
 }
 
