@@ -2,8 +2,8 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-export function up(knex) {
-    return knex.schema.alterTable('product', (table) => {
+export function up(knex:any) {
+    return knex.schema.alterTable('product', (table:any) => {
       table.integer('price').notNull();
     });
   }
@@ -12,6 +12,6 @@ export function up(knex) {
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-export function down(knex) {
+export function down(knex:any) {
     return knex.schema.dropTable('product');
   }
