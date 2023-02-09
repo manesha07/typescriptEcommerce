@@ -1,7 +1,7 @@
 import * as productService from "../services/productServices.js";
-
+import { Request, Response, NextFunction } from 'express';
 //Create Product-- only for Admin
-export function createProduct(req, res, next) {
+export function createProduct(req: Request, res: Response, next: NextFunction) {
   const product = req.body;
 
   productService
@@ -10,7 +10,7 @@ export function createProduct(req, res, next) {
     .catch((err) => next(err));
 }
 
-// export function getAllProducts(req, res, next) {
+// export function getAllProducts(req: Request, res: Response, next: NextFunction) {
 //   const product = req.params;
 //   console.log("dsa",req.params)
 //   productService
@@ -21,8 +21,8 @@ export function createProduct(req, res, next) {
 
 
 
-export function getAllProducts(req, res, next) {
-  const pageNumber = req.query.page || 1;
+export function getAllProducts(req: Request, res: Response, next: NextFunction) {
+  const pageNumber= req.query.page || 1;
   const itemsPerPage = req.query.limit || 10;
 
   productService
@@ -33,7 +33,7 @@ export function getAllProducts(req, res, next) {
 
 //get product details
 
-export function getProductDetails(req, res, next) {
+export function getProductDetails(req: Request, res: Response, next: NextFunction) {
   const product = req.params.id;
   productService
     .getProductDetails(req.params.id)
@@ -43,7 +43,7 @@ export function getProductDetails(req, res, next) {
 
 //Update product  -- only for Admin
 
-export function updateProduct(req, res, next) {
+export function updateProduct(req: Request, res: Response, next: NextFunction) {
   productService
     .updateProduct(req.params.id, req.body)
     .then((data) => res.json(data))
@@ -52,7 +52,7 @@ export function updateProduct(req, res, next) {
 
 //Delete Product
 
-export function deleteProduct(req, res, next) {
+export function deleteProduct(req: Request, res: Response, next: NextFunction) {
   productService
     .deleteProduct(req.params.id)
     .then((data) => res.json(data))

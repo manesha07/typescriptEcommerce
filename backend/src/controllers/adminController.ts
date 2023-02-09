@@ -1,4 +1,5 @@
-import * as adminService from "../services/adminServices.js"
+import * as adminService from "../services/adminServices"
+import { Request, Response, NextFunction } from 'express';
 /**
  * Controller to add admin.
  *
@@ -6,7 +7,7 @@ import * as adminService from "../services/adminServices.js"
  * @param {express.Response} res - send the response back to the client
  * @param {express.NextFunction} next - middleware function is called if err is thrown
  */
-export function addAdmin(req, res, next) {
+export function addAdmin(req: Request, res: Response, next: NextFunction) {
     adminService.saveAdmin(req.body)
     .then ((data) => res.status(200).json(data))
     .catch((err) => {
@@ -22,7 +23,7 @@ export function addAdmin(req, res, next) {
  */
 
 //details of functions
-export function getAllAdmins(req, res, next) {
+export function getAllAdmins(req: Request, res: Response, next: NextFunction) {
     adminService
       .getAllAdmins()
       .then((data) => res.json(data))
@@ -36,7 +37,7 @@ export function getAllAdmins(req, res, next) {
  * @param {express.Response} res - send the response back to the client
  * @param {express.NextFunction} next  - middleware function is called if err is thrown
  */
-export function updateAdmin (req,res,next) {
+export function updateAdmin (req: Request, res: Response, next: NextFunction) {
     // console.log("req",req.params.adminIdentifier,req.body)
     adminService.updateAdminById(req.params.adminIdentifier,req.body)
     .then((data) => res.json(data))
@@ -50,7 +51,7 @@ export function updateAdmin (req,res,next) {
  * @param {express.Response} res - send the response back to the client
  * @param {express.NextFunction} next  - middleware function is called if err is thrown
  */
-export function deleteAdmin (req,res,next) {
+export function deleteAdmin (req: Request, res: Response, next: NextFunction) {
     adminService.deleteAdminById(req.params.adminIdentifier)
     .then((data) => res.json(data))
     .catch((err) => next(err))
@@ -63,7 +64,7 @@ export function deleteAdmin (req,res,next) {
  * @param {express.Response} res - send the response back to the client
  * @param {express.NextFunction} next  - middleware function is called if err is thrown
  */
-export function login(req, res, next) {
+export function login(req: Request, res: Response, next: NextFunction) {
     adminService
       .login(req.body)
       .then((data) => res.json(data))
@@ -77,7 +78,7 @@ export function login(req, res, next) {
  * @param {express.Response} res - send the response back to the client
  * @param {express.NextFunction} next  - middleware function is called if err is thrown
  */
-export function registerAdmin(req,res,next) {
+export function registerAdmin(req: Request, res: Response, next: NextFunction) {
     adminService
     .saveAdmin(req.body)
     .then((data) => res.json(data))

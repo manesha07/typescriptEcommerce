@@ -2,9 +2,9 @@ import express from "express";
 import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser'
-import router from "./routes.js";
+import router from "./routes";
 // import {connectDatabase} from "./database/connection.js"
-import errorHandler from './middleware/errorHandler.js';
+import errorHandler from './middleware/errorHandler';
 
 const app = express()
 
@@ -17,7 +17,7 @@ app.use(router)
 app.use(errorHandler);
 // connectDatabase()
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, (): void=> {
     console.log(`Example app listening on port ${process.env.PORT}`)
 })
 // app.listen(8000, () => {

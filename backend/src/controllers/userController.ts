@@ -1,20 +1,20 @@
 import * as userService from "../services/userServices.js"
-
-export function registerUser(req,res,next) {
+import { Request, Response, NextFunction } from 'express';
+export function registerUser(req: Request, res: Response, next: NextFunction) {
     userService
     .registerUser(req.body)
     .then((data) => res.json(data))
     .catch((err) => next(err));
 }
 
-export function addUser(req, res, next) {
+export function addUser(req: Request, res: Response, next: NextFunction) {
     userService.saveUser(req.body)
     .then ((data) => res.status(200).json(data))
     .catch((err) => {
     next(err)}); 
 }
 
-export function checkoutUser(req, res, next) {
+export function checkoutUser(req: Request, res: Response, next: NextFunction) {
   const { name, email,phone,address} = req.body;
   userService
     .saveCheckout(req.body)
@@ -30,7 +30,7 @@ export function checkoutUser(req, res, next) {
  * @param {Object} res
  * @param {Function} next
  */
-export function getAllUsers(req, res, next) {
+export function getAllUsers(req: Request, res: Response, next: NextFunction) {
     const pageNumber = req.query.page || 1;
     const itemsPerPage = req.query.limit || 10;
     userService
@@ -39,7 +39,7 @@ export function getAllUsers(req, res, next) {
       .catch((err) => next(err));
   }
 
-  export function getUserDetails(req, res, next) {
+  export function getUserDetails(req: Request, res: Response, next: NextFunction) {
     const user = req.params.id;
     userService
       .getUserDetails(req.params.id)
@@ -47,13 +47,13 @@ export function getAllUsers(req, res, next) {
       .catch((err) => next(err));
   }
 
-export function updateUser (req,res,next) {
+export function updateUser (req: Request, res: Response, next: NextFunction) {
     userService.updateUserById(req.params.userIdentifier,req.body)
     .then((data) => res.json(data))
     .catch((err) => next(err))
 }
 
-export function deleteUser (req,res,next) {
+export function deleteUser (req: Request, res: Response, next: NextFunction) {
     userService.deleteUserById(req.params.userIdentifier)
     .then((data) => res.json(data))
     .catch((err) => next(err))
@@ -66,7 +66,7 @@ export function deleteUser (req,res,next) {
  * @param {Object} res
  * @param {Function} next
  */
-export function login(req, res, next) {
+export function login(req: Request, res: Response, next: NextFunction) {
     userService
       .login(req.body)
       .then((data) => res.json(data))
