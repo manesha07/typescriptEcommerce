@@ -1,11 +1,24 @@
 import axios from "axios";
 import config from "../config.js";
 
-const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem("user"));
+// const getCurrentUser = () => {
+//   return JSON.parse(localStorage.getItem("user"));
+// };
+declare var localStorage: {
+  getItem(key: string): string;
+  setItem(key: string, value: string): void;
+  removeItem(key: string): void;
+  [key: string]: any;
 };
 
-export const fetchProducts = async (query) => {
+const getCurrentUser = () => {
+  const user = localStorage.getItem("user");
+  if (user) {
+    return JSON.parse(user);
+  }
+  return null;
+}
+export const fetchProducts = async (query:any) => {
   const url = `${config.apiUrl}${config.endpoints.products}`;
   const data = await axios.get(url);
   console.log("popop",url,data)

@@ -22,25 +22,25 @@ import CheckoutForm from "./Component/Checkout";
 
 import * as Sentry from "@sentry/react";
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="container max-w-[1400px] mx-auto">
       <Navbar />
       <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/register" element={<Register />} />
-        <Route exact path="/userLogin" element={<UserLogin />} />
-        <Route exact path="/userRegister" element={<UserRegister />} />
-        <Route exact path="/products" element={<Products />} />
-        <Route exact path="/products/:id" element={<DetailProduct />} />
-        <Route exact path="/usersdetail/:id" element={<DetailUser/>} />
-        <Route exact path="/dashboard" element={<Dashboard />} />
-        <Route exact path="/addproduct" element={<AddProduct />} />
-        <Route exact path="/products/edit/:id" element={<EditProduct />} />
-        <Route exact path="/users/edit/:id" element={<EditUser />} />
-        <Route exact path="/cart" element={<Cart />} />
-        <Route exact path="/checkout" element={<CheckoutForm />} />
+        <Route  path="/" element={<Home />} />
+        <Route  path="/login" element={<Login />} />
+        <Route  path="/register" element={<Register />} />
+        <Route  path="/userLogin" element={<UserLogin />} />
+        <Route  path="/userRegister" element={<UserRegister />} />
+        <Route  path="/products" element={<Products />} />
+        <Route  path="/products/:id" element={<DetailProduct />} />
+        <Route  path="/usersdetail/:id" element={<DetailUser/>} />
+        <Route  path="/dashboard" element={<Dashboard />} />
+        <Route  path="/addproduct" element={<AddProduct />} />
+        <Route  path="/products/edit/:id" element={<EditProduct />} />
+        <Route  path="/users/edit/:id" element={<EditUser />} />
+        <Route  path="/cart" element={<Cart />} />
+        <Route  path="/checkout" element={<CheckoutForm />} />
       </Routes>
       <Footer />
     </div>

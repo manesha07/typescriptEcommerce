@@ -1,69 +1,72 @@
-import { Link,useNavigate } from 'react-router-dom';
-import {useSelector} from "react-redux";
-import { useState, useEffect } from "react";
-import { authService } from "../authentication/authentication";
-import img from "../image/avif.jpg"
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { authService } from '../authentication/authentication';
+// import img from '../image/e.png';
+
+type Params = {
+  id: string;
+};
+
+type User = {
+  currentUser: string | undefined;
+};
+
+type Cart = {
+  count: number;
+};
 
 export const Navbar = () => {
-   const { id } = useParams();
-   const [cartLength,setCartLength] = useState(0);
-   const navigate = useNavigate();
-    const cartCount =useSelector(state => {
-      console.log("this is nav state",state.cart.count) 
-      return state.cart.count})
-        const [currentUser, setCurrentUser] = useState(undefined);
-  console.log("currenttt",currentUser);
+  const { id } = useParams<Params>();
+  const [cartLength, setCartLength] = useState(0);
+  const navigate = useNavigate();
+  const cart = useSelector<{cart: Cart}, Cart>(state => state.cart);
+  const [currentUser, setCurrentUser] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const user = authService.getCurrentUser();
-    console.log("userla",user)
 
     if (user) {
       setCurrentUser(user.currentUser);
     }
   }, []);
 
-  useEffect(()=> {
-    const cart = JSON.parse(localStorage.getItem("cart"))
-    const user = JSON.parse(localStorage.getItem("user"))
-    const cartCounts = cart && cart.reduce((acc,item) => {
-      return acc + item.cartQuantity
-    },0)
-    setCartLength(cartCounts)
-  },[cartCount])
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const cartCounts = cart.reduce((acc:any, item:any) => acc + item.cartQuantity, 0);
+    setCartLength(cartCounts);
+  }, [cart.count]);
 
   const logOut = () => {
     authService.logout();
-    navigate("/")
+    navigate('/');
     window.location.reload();
-  };  
+  };
 
-const [users, setUsers] = useState();
-const [showDropdown, setShowDropdown] = useState(false);
-const [showDropdown2, setShowDropdown2] = useState(false);
+  const [users, setUsers] = useState<object | undefined>(undefined);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showDropdown2, setShowDropdown2] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/users/${id}`)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log("this", res);
+      .then(res => res.json())
+      .then(res => {
         setUsers(res.data);
       })
-      .catch((err) => console.error(err));
+      .catch(err => console.error(err));
   }, []);
-
     return (
       <>
         <div className="nav flex flex-wrap justify-between bg-[#e8e8e8]">
           <div className="flex justify-start inline-block">
-            <Link to="/">
+            {/* <Link to="/">
               <img
                 src={img}
                 alt="hero img"
                 className="h-[70px] w-[70px] pt-[5px]"
               />
-            </Link>
+            </Link> */}
           </div>
           <ul className="inline-block flex text-grey justify-end py-[20px] items-center">
             <li className="p-[10px] hover:bg-[orange] ">
