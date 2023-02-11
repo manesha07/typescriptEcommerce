@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -32,7 +31,7 @@ const Products = () => {
     indexOfLastProduct
   );
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber:Number) =>setCurrentPage(Number(pageNumber));
 
   return (
     <>
@@ -41,7 +40,8 @@ const Products = () => {
       </p>
       <hr />
       <div className="flex flex-wrap">
-        {currentProducts.map((item) => {
+        {currentProducts.map((item:any) => {
+          
           return (
             <>
               <Link to={`/products/${item.id}`}>
@@ -49,8 +49,11 @@ const Products = () => {
                   key={item.id}
                   className="card h-[373] w-[234px] inline-block text-center shadow-xl m-[20px] hover:mt-[-0.5px]"
                 >
+                  {" "}
                   <img
-                    src={item.images}
+                    src={
+                      process.env.REACT_APP_API_URL + "/uploads/" + item.images
+                    }
                     alt={item.id + "img"}
                     className="p-[10px] h-[233px] w-[233px]"
                   />
@@ -76,8 +79,8 @@ const Products = () => {
               >
                 <button
                   onClick={() => paginate(i + 1)}
-                  className="page-link"
-                  class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+               
+                  className="page-link px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   {i + 1}
                 </button>

@@ -2,10 +2,16 @@ import { useState, useRef, useEffect } from "react";
 
 import data from "./data.json";
 
+interface Resource {
+link: string;
+title: string;
+imageUrl: string;
+}
+
 const Carousel = () => {
-  const maxScrollWidth = useRef(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const carousel = useRef(null);
+const maxScrollWidth = useRef(0);
+const [currentIndex, setCurrentIndex] = useState(0);
+const carousel = useRef<HTMLDivElement>(null);
 
   const movePrev = () => {
     if (currentIndex > 0) {
@@ -22,7 +28,7 @@ const Carousel = () => {
     }
   };
 
-  const isDisabled = (direction) => {
+  const isDisabled = (direction:string) => {
     if (direction === "prev") {
       return currentIndex <= 0;
     }
