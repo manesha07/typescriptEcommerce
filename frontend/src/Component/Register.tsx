@@ -24,14 +24,7 @@ const [password, setPassword] = useState("");
 const [repassword, setRepassword] = useState("");
 
 const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-event.preventDefault();
-    console.log("register form data", {
-      name: fullname,
-      username: username,
-      password: password,
-      email: email,
-    });
-   
+event.preventDefault();   
     if (password !== repassword) {
       console.log("error");
     }

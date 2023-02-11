@@ -3,10 +3,10 @@ const configuration = {
   client: 'pg',
   connection: {
     host: 'localhost',
-    port: 5433,
+    port: 5432,
     user: 'postgres',
-    password: 'admin123',
-    database: 'ecdb12'
+    password: 'postgres',
+    database: 'typescriptecdb'
   },
   migrations: {
     tableName: 'migrations',

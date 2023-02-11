@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -24,6 +23,7 @@ let shippingTotal = 0;
 let total = 0;
 
 const Cart: React.FC = () => {
+  const [cartLength, setCartLength] = useState(0);
   // const products = useSelector((state) => {
   //   return state.cart.products;
   // });
@@ -32,18 +32,12 @@ const cart = useSelector((state: CartState) => {
 return state.cart;
 });
 
-const productString = localStorage.getItem('user');
+const productString = localStorage.getItem('cart');
 const products =  productString ? JSON.parse( productString) : null;
   // const products = JSON.parse(localStorage.getItem("cart")); // Get cart items from local storage
 
   console.log("cart items,", products);
 
-  // Use selector hook to get the count of items in the cart from the Redux store
-// Use selector hook to get the count of items in the cart from the Redux store
-const cartCount = useSelector((state: CartState) => {
-console.log("this is nav state", state.cart.count);
-return state.cart.count;
-});
   const [currentUser, setCurrentUser] = useState(undefined); // State hook to get the current user from the authService
   console.log("currenttt", currentUser);
 
@@ -57,9 +51,15 @@ return state.cart.count;
     }
   }, []);
 
+  useEffect(() => {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cartCounts = cart.reduce((acc:any, item:any) => acc + item.cartQuantity, 0);
+    setCartLength(cartCounts);
+  }, [cart.count]);
+
   return (
     <>{products ? <div>
-      <p className="text-[40px]">Cart Items({cartCount})</p>
+      <p className="text-[40px]">Cart Items({cartLength})</p>
       <div className="flex flex-col">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="py-4 inline-block min-w-full sm:px-6 lg:px-8">

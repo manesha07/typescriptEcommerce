@@ -2,11 +2,11 @@ import { useState, useRef, useEffect } from "react";
 
 import data from "./data.json";
 
-interface Resource {
-link: string;
-title: string;
-imageUrl: string;
-}
+// interface Resource {
+// link: string;
+// title: string;
+// imageUrl: string;
+// }
 
 const Carousel = () => {
 const maxScrollWidth = useRef(0);

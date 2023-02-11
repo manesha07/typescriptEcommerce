@@ -18,7 +18,8 @@
     "isolatedModules": true,
      "jsx": "react-jsx",
     "noImplicitAny": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "baseUrl": "."
   },
   "include": [
    "src/**/*.ts","**/*.ts", "**/*.tsx"

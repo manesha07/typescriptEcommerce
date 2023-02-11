@@ -3,12 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import * as notify from "../utils/notify"
 import * as Sentry from "@sentry/react";
-// const user = JSON.parse(localStorage.getItem("token"));
-  const user = JSON.parse(localStorage.getItem('token') || '[]');
+
 // This component is login for admin
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
   const handleSubmit =(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,7 +46,6 @@ const Login = () => {
       >
         <h1 className="text-[30px] text-center mb-[20px]">Login</h1>
         <label htmlFor="username" className="text-gray-600">
-          {" "}
           Username
         </label>
         <input

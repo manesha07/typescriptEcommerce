@@ -1,24 +1,16 @@
-import React from "react";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-
-import axios from "axios";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(10);
 
-  const cartCount = useSelector((state) => {
-    console.log("this is state", state);
-  });
-
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/products`)
       .then((data) => {
-        console.log("yo data", data);
         setProducts(data.data.data);
       })
       .catch((err) => console.error(err));
@@ -41,7 +33,6 @@ const Products = () => {
       <hr />
       <div className="flex flex-wrap">
         {currentProducts.map((item:any) => {
-          
           return (
             <>
               <Link to={`/products/${item.id}`}>
@@ -49,7 +40,6 @@ const Products = () => {
                   key={item.id}
                   className="card h-[373] w-[234px] inline-block text-center shadow-xl m-[20px] hover:mt-[-0.5px]"
                 >
-                  {" "}
                   <img
                     src={
                       process.env.REACT_APP_API_URL + "/uploads/" + item.images
@@ -79,7 +69,6 @@ const Products = () => {
               >
                 <button
                   onClick={() => paginate(i + 1)}
-               
                   className="page-link px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >
                   {i + 1}

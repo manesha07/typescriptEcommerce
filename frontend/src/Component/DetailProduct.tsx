@@ -1,12 +1,10 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useEffect,useState } from 'react';
-import { Navbar } from './Navbar';
-import { Footer } from './Footer';
 import {useSelector,useDispatch} from "react-redux"
-import {addToCart} from "../redux/cartSlice"
-// import * as productServices from "../services/index"
+import {addToCart} from "../redux/cartSlice";
 
+// import * as productServices from "../services/index"
 type Product = {
 name: string;
 description: string;

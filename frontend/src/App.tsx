@@ -4,9 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./Component/Login";
 import Register from "./Component/Register";
 import DetailProduct from "./Component/DetailProduct";
-
 import DetailUser from "./Component/DetailUser";
-
 import Dashboard from "./Admin/Dashboard";
 import AddProduct from "./Admin/AddProduct";
 import EditProduct from "./Admin/EditProduct";
@@ -17,12 +15,11 @@ import UserLogin from "./Component/userLogin";
 import UserRegister from "./Component/userRegister";
 import Products from "./Component/Products";
 import { Footer } from "./Component/Footer";
-
 import CheckoutForm from "./Component/Checkout";
 
 import * as Sentry from "@sentry/react";
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <div className="container max-w-[1400px] mx-auto">
       <Navbar />

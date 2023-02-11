@@ -9,7 +9,7 @@ type Params = {
 };
 
 type User = {
-  currentUser: string | undefined;
+  currentUser:any;
 };
 
 type Cart = {
@@ -21,11 +21,11 @@ export const Navbar = () => {
   const [cartLength, setCartLength] = useState(0);
   const navigate = useNavigate();
   const cart = useSelector<{cart: Cart}, Cart>(state => state.cart);
-  const [currentUser, setCurrentUser] = useState<string | undefined>(undefined);
+  const [currentUser, setCurrentUser] = useState< null>();
 
   useEffect(() => {
-    const user = authService.getCurrentUser();
-
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+   console.log("user",user)
     if (user) {
       setCurrentUser(user.currentUser);
     }
@@ -33,7 +33,6 @@ export const Navbar = () => {
 
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
     const cartCounts = cart.reduce((acc:any, item:any) => acc + item.cartQuantity, 0);
     setCartLength(cartCounts);
   }, [cart.count]);
@@ -43,19 +42,9 @@ export const Navbar = () => {
     navigate('/');
     window.location.reload();
   };
-
-  const [users, setUsers] = useState<object | undefined>(undefined);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDropdown2, setShowDropdown2] = useState(false);
 
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/users/${id}`)
-      .then(res => res.json())
-      .then(res => {
-        setUsers(res.data);
-      })
-      .catch(err => console.error(err));
-  }, []);
     return (
       <>
         <div className="nav flex flex-wrap justify-between bg-[#e8e8e8]">
