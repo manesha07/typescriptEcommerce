@@ -15,8 +15,6 @@ class DBModel {
     this.connection = connection;
   }
 
-
-
   async getAll1(): Promise<any> {
     const data = await connection(this.table)
       .select('*');
@@ -31,7 +29,7 @@ class DBModel {
 
     return data;
   }
-  async getById(id: number): Promise<any | null> {
+  async getById(id: number): Promise<Array<object> | null> {
     const [data] = await connection(this.table).select('*').where('id', id);
 
     return data ? data : null;

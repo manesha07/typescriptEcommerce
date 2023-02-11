@@ -1,4 +1,4 @@
-import express from "express";
+import express, {Express} from "express";
 import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser'
@@ -6,7 +6,7 @@ import router from "./routes";
 // import {connectDatabase} from "./database/connection.js"
 import errorHandler from './middleware/errorHandler';
 
-const app = express()
+const app :Express = express()
 
 dotenv.config({path : '.env'});
 console.log(process.env.PORT)

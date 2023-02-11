@@ -1,8 +1,11 @@
 import * as userService from "../services/userServices.js"
 import { Request, Response, NextFunction } from 'express';
+import { AddUsers,UpdateUsers,LoginUsers } from "../types";
+
 export function registerUser(req: Request, res: Response, next: NextFunction) {
-    userService
-    .registerUser(req.body)
+  const body = req.body as AddUsers;  
+  userService
+    .registerUser(body)
     .then((data) => res.json(data))
     .catch((err) => next(err));
 }
@@ -48,7 +51,8 @@ export function getAllUsers(req: Request<{page: any,limit:any}>, res: Response, 
   }
 
 export function updateUser (req: Request<{userIdentifier: any}>, res: Response, next: NextFunction) {
-    userService.updateUserById(req.params.userIdentifier,req.body)
+  const body = req.body as UpdateUsers;
+    userService.updateUserById(req.params.userIdentifier,body)
     .then((data) => res.json(data))
     .catch((err) => next(err))
 }
@@ -67,8 +71,9 @@ export function deleteUser (req:  Request<{userIdentifier: any}>, res: Response,
  * @param {Function} next
  */
 export function login(req: Request, res: Response, next: NextFunction) {
+  const body = req.body as LoginUsers;
     userService
-      .login(req.body)
+      .login(body)
       .then((data) => res.json(data))
       .catch((err) => next(err));
   }

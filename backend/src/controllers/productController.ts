@@ -1,8 +1,9 @@
 import * as productService from "../services/productServices.js";
 import { Request, Response, NextFunction } from 'express';
+import { AddProduct,UpdateProduct } from "../types";
 //Create Product-- only for Admin
 export function createProduct(req: Request, res: Response, next: NextFunction) {
-  const product = req.body;
+  const body = req.body as AddProduct;
 
   productService
     .createProduct(req.body)
@@ -44,8 +45,9 @@ export function getProductDetails(req: Request<{id: number}>, res: Response, nex
 //Update product  -- only for Admin
 
 export function updateProduct(req: Request<{id: any}>, res: Response, next: NextFunction) {
+  const body = req.body as UpdateProduct;
   productService
-    .updateProduct(req.params.id, req.body)
+    .updateProduct(req.params.id,req.body)
     .then((data) => res.json(data))
     .catch((err) => next(err));
 }

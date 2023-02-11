@@ -26,8 +26,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = exports.deleteUser = exports.updateUser = exports.getUserDetails = exports.getAllUsers = exports.checkoutUser = exports.addUser = exports.registerUser = void 0;
 const userService = __importStar(require("../services/userServices.js"));
 function registerUser(req, res, next) {
+    const body = req.body;
     userService
-        .registerUser(req.body)
+        .registerUser(body)
         .then((data) => res.json(data))
         .catch((err) => next(err));
 }
@@ -73,7 +74,8 @@ function getUserDetails(req, res, next) {
 }
 exports.getUserDetails = getUserDetails;
 function updateUser(req, res, next) {
-    userService.updateUserById(req.params.userIdentifier, req.body)
+    const body = req.body;
+    userService.updateUserById(req.params.userIdentifier, body)
         .then((data) => res.json(data))
         .catch((err) => next(err));
 }
@@ -92,8 +94,9 @@ exports.deleteUser = deleteUser;
  * @param {Function} next
  */
 function login(req, res, next) {
+    const body = req.body;
     userService
-        .login(req.body)
+        .login(body)
         .then((data) => res.json(data))
         .catch((err) => next(err));
 }

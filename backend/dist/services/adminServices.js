@@ -23,7 +23,7 @@ const crypt_1 = require("../utils/crypt");
  */
 function saveAdmin(data) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { id, name, username, address, password, email } = data;
+        const { name, username, password, email } = data;
         const existingUser = yield new admin_1.default().findByParams({ name: name, username: username, email: email });
         if (existingUser) {
             throw boom_1.default.badRequest('User already exist');

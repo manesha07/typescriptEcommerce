@@ -38,7 +38,7 @@ message: "Added Product successfully",
 //******************** Get all products ********************//
 export async function getAllProducts(
 pageNumber: number = 1,  itemsPerPage: number = 12
-): Promise<{ data: any; message: string }> {
+): Promise<{ data: object; message: string }> {
 
 const data = await new Product().getAll(pageNumber, itemsPerPage);
 if (!data) {
@@ -51,7 +51,7 @@ message: "Find all Products successfully",
 }
 
 // Get product details
-export async function getProductDetails(id: number): Promise<{ data: any; message: string }> {
+export async function getProductDetails(id: number): Promise<{ data: object; message: string }> {
 const insertedData = await new Product().getById(id);
 if (!insertedData) {
 throw Boom.badRequest("Product not Found");

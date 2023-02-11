@@ -33,7 +33,8 @@ const adminService = __importStar(require("../services/adminServices"));
  * @param {express.NextFunction} next - middleware function is called if err is thrown
  */
 function addAdmin(req, res, next) {
-    adminService.saveAdmin(req.body)
+    const body = req.body;
+    adminService.saveAdmin(body)
         .then((data) => res.status(200).json(data))
         .catch((err) => {
         next(err);
@@ -63,8 +64,8 @@ exports.getAllAdmins = getAllAdmins;
 * @param {express.NextFunction} next  - middleware function is called if err is thrown
 */
 function updateAdmin(req, res, next) {
-    // console.log("req",req.params.adminIdentifier,req.body)
-    adminService.updateAdminById(req.params.adminIdentifier, req.body)
+    const body = req.body;
+    adminService.updateAdminById(req.params.adminIdentifier, body)
         .then((data) => res.json(data))
         .catch((err) => next(err));
 }
@@ -90,19 +91,20 @@ exports.deleteAdmin = deleteAdmin;
  * @param {express.NextFunction} next  - middleware function is called if err is thrown
  */
 function login(req, res, next) {
+    const body = req.body;
     adminService
-        .login(req.body)
+        .login(body)
         .then((data) => res.json(data))
         .catch((err) => next(err));
 }
 exports.login = login;
 /**
-* Controller for registerAdmin.
-*
-* @param {express.Request} req - contains the data from the request body for register of admin
-* @param {express.Response} res - send the response back to the client
-* @param {express.NextFunction} next  - middleware function is called if err is thrown
-*/
+ * Controller for registerAdmin.
+ *
+ * @param {express.Request} req - contains the data from the request body for register of admin
+ * @param {express.Response} res - send the response back to the client
+ * @param {express.NextFunction} next  - middleware function is called if err is thrown
+ */
 function registerAdmin(req, res, next) {
     adminService
         .saveAdmin(req.body)
