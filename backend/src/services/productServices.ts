@@ -23,32 +23,29 @@ export async function createProduct(
 
 //******************** Get all products ********************//
 export async function getAllProducts(
-  pageNumber: number = 1,
-  itemsPerPage: number = 12
-): Promise<{ data: any; message: string }> {
-  const data = await new Product().getAll(pageNumber, itemsPerPage);
-  if (!data) {
-    throw Boom.badRequest("Product not Found");
-  }
-  console.log("Database bta data", data);
-  return {
-    data: data,
-    message: "Find all Products successfully",
-  };
+pageNumber: number = 1,  itemsPerPage: number = 12
+): Promise<{ data: object; message: string }> {
+
+const data = await new Product().getAll(pageNumber, itemsPerPage);
+if (!data) {
+throw Boom.badRequest("Product not Found");
+}
+return {
+data: data,
+message: "Find all Products successfully",
+};
 }
 
 // Get product details
-export async function getProductDetails(
-  id: number
-): Promise<{ data: any; message: string }> {
-  const insertedData = await new Product().getById(id);
-  if (!insertedData) {
-    throw Boom.badRequest("Product not Found");
-  }
-  return {
-    data: insertedData,
-    message: "Find Product successfully",
-  };
+export async function getProductDetails(id: number): Promise<{ data: object; message: string }> {
+const insertedData = await new Product().getById(id);
+if (!insertedData) {
+throw Boom.badRequest("Product not Found");
+}
+return {
+data: insertedData,
+message: "Find Product successfully",
+};
 }
 
 // Update product -- only for Admin

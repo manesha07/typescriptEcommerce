@@ -1,22 +1,20 @@
 import Boom from "@hapi/boom";
 import { string } from "joi";
 import { registerAdmin } from "../controllers/adminController";
-
-import Admin from "../models/admin";
-import { hash, compare, createToken } from "../utils/crypt";
+import { AddUsers,LoginUsers,UpdateUsers,ExistingUser } from "../types";
+import Admin from "../models/admin"
+import User from "../models/user";
+import { hash, compare, createToken } from '../utils/crypt';
 
 /**
  *
  * @param {Object} data - details of admin to save admin
  * @returns
  */
-export async function saveAdmin(data: any) {
-  const { id, name, username, address, password, email } = data;
-  const existingUser = await new Admin().findByParams({
-    name: name,
-    username: username,
-    email: email,
-  });
+
+export async function saveAdmin(data :AddUsers) {
+    const {name,username,password,email} =data;
+    const existingUser :ExistingUser = await new Admin().findByParams({name:name ,username:username,email:email});
 
   if (existingUser) {
     throw Boom.badRequest("User already exist");
@@ -57,8 +55,9 @@ export async function getAllAdmins() {
  * @param {Object} data - data that needs to be updated
  * @returns {Object}{data: returnedData,message: 'Succesfully updated admin'}
  */
-export async function updateAdminById(id: number, data: any) {
-  const returnedData = await new Admin().updateById(id, data);
+
+export async function updateAdminById(id :number,data :UpdateUsers) {
+    const returnedData = await new Admin().updateById(id,data);
 
   return {
     data: returnedData,
@@ -88,40 +87,42 @@ export async function deleteAdminById(id: number) {
  * @return {Object}  { data: { token, user }, message: "Admin Logged in succesfully",};
  */
 
-type params = {
-  username: String;
-  password: String;
-};
+interface LoginUser {
+  id: number;
+  name: string;
+  email: string;
+  currentUser: string
+}
 
-export async function login(params: { username: string; password: string }) {
-  const { username, password } = params;
+export async function login(params:LoginUsers) {
+    const { username, password } = params;
 
-  if (!username || !password) {
-    return {
-      message: "Please enter username and password",
+     if (!username || !password) {
+       return {
+         message: "Please enter username and password",
+       };
+          }
+
+    const existingUser :ExistingUser= await new Admin().findByParams({username:params.username});
+    if (!existingUser) {
+   
+      throw new (Boom.badRequest as any)('Invalid credentials');
+    }
+    const doesPasswordMatch = compare(password , existingUser.password);
+  
+    if (!doesPasswordMatch) {
+  
+      throw new (Boom.badRequest as any)('Invalid credentials');
+    }
+
+    const user : LoginUser = {
+      id: existingUser.id,
+      name: existingUser.name,
+      email: existingUser.email,
+      currentUser: 'admin'
     };
-  }
-
-  const existingUser = await new Admin().findByParams({
-    username: params.username,
-  });
-  if (!existingUser) {
-    throw new (Boom.badRequest as any)("Invalid credentials");
-  }
-  const doesPasswordMatch = compare(password, existingUser.password);
-
-  if (!doesPasswordMatch) {
-    throw new (Boom.badRequest as any)("Invalid credentials");
-  }
-
-  const user = {
-    id: existingUser.id,
-    name: existingUser.name,
-    email: existingUser.email,
-    currentUser: "admin",
-  };
-
-  const token = createToken(user);
+  
+    const token :string= createToken(user);
 
   return {
     data: { token, user },

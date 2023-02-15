@@ -1,8 +1,11 @@
-import * as userService from "../services/userServices.js";
-import { Request, Response, NextFunction } from "express";
+import * as userService from "../services/userServices.js"
+import { Request, Response, NextFunction } from 'express';
+import { AddUsers,UpdateUsers,LoginUsers } from "../types";
+
 export function registerUser(req: Request, res: Response, next: NextFunction) {
+  const body = req.body as AddUsers;  
   userService
-    .registerUser(req.body)
+    .registerUser(body)
     .then((data) => res.json(data))
     .catch((err) => next(err));
 }
@@ -40,9 +43,9 @@ export function getAllUsers(
   const itemsPerPage: any = req.query.limit || 10;
   userService
     .getAllUsers(pageNumber, itemsPerPage)
-    .then((data) => res.json(data))
-    .catch((err) => next(err));
-}
+      .then((data) => res.json(data))
+      .catch((err) => next(err));
+  }
 
 export function getUserDetails(
   req: Request<{ id: number }>,
@@ -61,8 +64,8 @@ export function updateUser(
   res: Response,
   next: NextFunction
 ) {
-  userService
-    .updateUserById(req.params.userIdentifier, req.body)
+  const body = req.body as UpdateUsers;
+    userService.updateUserById(req.params.userIdentifier,body)
     .then((data) => res.json(data))
     .catch((err) => next(err));
 }
@@ -86,8 +89,9 @@ export function deleteUser(
  * @param {Function} next
  */
 export function login(req: Request, res: Response, next: NextFunction) {
-  userService
-    .login(req.body)
-    .then((data) => res.json(data))
-    .catch((err) => next(err));
-}
+  const body = req.body as LoginUsers;
+    userService
+      .login(body)
+      .then((data) => res.json(data))
+      .catch((err) => next(err));
+  }

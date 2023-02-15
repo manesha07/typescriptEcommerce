@@ -1,5 +1,7 @@
-import * as adminService from "../services/adminServices";
-import { Request, Response, NextFunction } from "express";
+
+import * as adminService from "../services/adminServices"
+import { Request, Response, NextFunction } from 'express';
+import { AddUsers,UpdateUsers,LoginUsers } from "../types";
 /**
  * Controller to add admin.
  *
@@ -7,10 +9,11 @@ import { Request, Response, NextFunction } from "express";
  * @param {express.Response} res - send the response back to the client
  * @param {express.NextFunction} next - middleware function is called if err is thrown
  */
+
 export function addAdmin(req: Request, res: Response, next: NextFunction) {
-  adminService
-    .saveAdmin(req.body)
-    .then((data) => res.status(200).json(data))
+    const body = req.body as AddUsers;
+    adminService.saveAdmin(body)
+    .then ((data) => res.status(200).json(data))
     .catch((err) => {
       next(err);
     });
@@ -45,9 +48,9 @@ export function updateAdmin(
   res: Response,
   next: NextFunction
 ): void {
-  // console.log("req",req.params.adminIdentifier,req.body)
-  adminService
-    .updateAdminById(req.params.adminIdentifier, req.body)
+    const body = req.body as UpdateUsers;
+    adminService.updateAdminById(req.params.adminIdentifier,body)
+
     .then((data) => res.json(data))
     .catch((err) => next(err));
 }
@@ -77,12 +80,15 @@ export function deleteAdmin(
  * @param {express.Response} res - send the response back to the client
  * @param {express.NextFunction} next  - middleware function is called if err is thrown
  */
+
+
 export function login(req: Request, res: Response, next: NextFunction) {
-  adminService
-    .login(req.body)
-    .then((data) => res.json(data))
-    .catch((err) => next(err));
-}
+    const body = req.body as LoginUsers;
+    adminService
+      .login(body)
+      .then((data) => res.json(data))
+      .catch((err) => next(err));
+  }
 
 /**
  * Controller for registerAdmin.

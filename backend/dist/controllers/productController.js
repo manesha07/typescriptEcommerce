@@ -27,7 +27,7 @@ exports.deleteProduct = exports.updateProduct = exports.getProductDetails = expo
 const productService = __importStar(require("../services/productServices.js"));
 //Create Product-- only for Admin
 function createProduct(req, res, next) {
-    const product = req.body;
+    const body = req.body;
     productService
         .createProduct(req.body)
         .then((data) => res.json(data))
@@ -63,6 +63,7 @@ function getProductDetails(req, res, next) {
 exports.getProductDetails = getProductDetails;
 //Update product  -- only for Admin
 function updateProduct(req, res, next) {
+    const body = req.body;
     productService
         .updateProduct(req.params.id, req.body)
         .then((data) => res.json(data))
