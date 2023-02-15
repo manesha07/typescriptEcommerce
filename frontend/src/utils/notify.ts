@@ -1,7 +1,7 @@
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
-export const success = (param: any) => {
+export const success = (param: string) => {
   toast.success(`Succesfully ${param}`, {
     position: toast.POSITION.TOP_CENTER
   });

@@ -1,4 +1,4 @@
-import DBModel from './DBModel';
+import DBModel from "./DBModel";
 
 /**
  * Model for the 'manufacturers' table.
@@ -7,7 +7,7 @@ import DBModel from './DBModel';
  */
 class Product extends DBModel {
   constructor() {
-    super('product');
+    super("product");
   }
 }
 

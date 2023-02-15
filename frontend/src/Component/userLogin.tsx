@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import * as notify from "../utils/notify"
+import * as notify from "../utils/notify";
 import authHeader from "../authentication/authHeader.js";
+import { LoginResponse } from "src/typedeclaration";
 
 // component to display login for User
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('token') || '[]');
+  const user = JSON.parse(localStorage.getItem("token") || "[]");
   console.log("user yei ho", user);
-  const handleSubmit =  (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     // Event handler for submitting the form
     event.preventDefault();
     fetch(`${process.env.REACT_APP_API_URL}/userLogin`, {
@@ -22,13 +23,15 @@ const Login = () => {
       body: JSON.stringify({ username: username, password: password }),
     })
       .then((response) => response.json())
-      .then((data) => {
-        if (data.data.user) {
-          console.log("bhitra:", data);
-          localStorage.setItem("user", JSON.stringify(data.data.user));
-          notify.success("Login"); // Show a success notification
-          navigate("/");
-          window.location.reload();
+      .then((data: LoginResponse) => {
+        if ("data" in data) {
+          if (data.data.user) {
+            console.log("bhitra:", data);
+            localStorage.setItem("user", JSON.stringify(data.data.user));
+            notify.success("Login"); // Show a success notification
+            navigate("/");
+            window.location.reload();
+          }
         }
       })
       .catch((error) => {

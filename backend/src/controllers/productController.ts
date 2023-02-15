@@ -1,5 +1,6 @@
 import * as productService from "../services/productServices.js";
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from "express";
+
 //Create Product-- only for Admin
 export function createProduct(req: Request, res: Response, next: NextFunction) {
   const product = req.body;
@@ -10,20 +11,14 @@ export function createProduct(req: Request, res: Response, next: NextFunction) {
     .catch((err) => next(err));
 }
 
-// export function getAllProducts(req: Request, res: Response, next: NextFunction) {
-//   const product = req.params;
-//   console.log("dsa",req.params)
-//   productService
-//     .getAllProducts(req.params)
-//     .then((data) => res.json(data))
-//     .catch((err) => next(err));
-// }
-
-
-
-export function getAllProducts(req:  Request<{page: any,limit:any}>, res: Response, next: NextFunction) {
-  const pageNumber :any= req.query.page || 1;
-  const itemsPerPage :any= req.query.limit || 10;
+export function getAllProducts(
+  req: Request<{ page: any; limit: any }>,
+  res: Response,
+  next: NextFunction
+) {
+  console.log("bhitra gayo?");
+  const pageNumber: any = req.query.page || 1;
+  const itemsPerPage: any = req.query.limit || 10;
 
   productService
     .getAllProducts(pageNumber, itemsPerPage)
@@ -33,7 +28,11 @@ export function getAllProducts(req:  Request<{page: any,limit:any}>, res: Respon
 
 //get product details
 
-export function getProductDetails(req: Request<{id: number}>, res: Response, next: NextFunction) {
+export function getProductDetails(
+  req: Request<{ id: number }>,
+  res: Response,
+  next: NextFunction
+) {
   const product = req.params.id;
   productService
     .getProductDetails(req.params.id)
@@ -43,7 +42,11 @@ export function getProductDetails(req: Request<{id: number}>, res: Response, nex
 
 //Update product  -- only for Admin
 
-export function updateProduct(req: Request<{id: any}>, res: Response, next: NextFunction) {
+export function updateProduct(
+  req: Request<{ id: any }>,
+  res: Response,
+  next: NextFunction
+) {
   productService
     .updateProduct(req.params.id, req.body)
     .then((data) => res.json(data))
@@ -52,7 +55,12 @@ export function updateProduct(req: Request<{id: any}>, res: Response, next: Next
 
 //Delete Product
 
-export function deleteProduct(req: Request<{id: any}>, res: Response, next: NextFunction) {
+export function deleteProduct(
+  req: Request<{ id: any }>,
+  res: Response,
+  next: NextFunction
+) {
+  console.log("req.body", req.params.id);
   productService
     .deleteProduct(req.params.id)
     .then((data) => res.json(data))

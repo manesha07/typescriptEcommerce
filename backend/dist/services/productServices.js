@@ -46,6 +46,7 @@ function getAllProducts(pageNumber = 1, itemsPerPage = 12) {
         if (!data) {
             throw boom_1.default.badRequest("Product not Found");
         }
+        console.log("Database bta data", data);
         return {
             data: data,
             message: "Find all Products successfully",

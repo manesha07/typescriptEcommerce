@@ -1,5 +1,5 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 // import * as dotenv from 'dotenv';
 // dotenv.config({path : '../.env'});
 
@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
  * @param {string} password
  * @return {string}
  */
-export function hash(password :string) {
+export function hash(password: string) {
   return bcrypt.hashSync(password, parseInt(process.env.SALT));
 }
 
@@ -20,7 +20,7 @@ export function hash(password :string) {
  * @param {string} hash
  * @return {boolean}
  */
-export function compare(password :string, hash :string) {
+export function compare(password: string, hash: string) {
   console.log("hiii");
   return bcrypt.compareSync(password, hash);
 }
@@ -31,7 +31,7 @@ export function compare(password :string, hash :string) {
  * @param {Object} user
  * @return {string}
  */
-export function createToken(user :object) {
+export function createToken(user: object) {
   return jwt.sign(user, process.env.TOKEN_SECRET, {
     expiresIn: process.env.TOKEN_EXPIRATION,
   });

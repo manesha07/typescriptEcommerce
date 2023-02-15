@@ -1,16 +1,18 @@
-import Products from "./Products"
-import Hero from "./Hero"
-import HeroPage from "./HeroPage"
+import Products from "./Products";
+import Hero from "./Hero";
+import HeroPage from "./HeroPage";
 
 export const Home = () => {
-    return <>
-        <div>
-        <HeroPage/>
-        <Hero/>
-        <Products/>
-        </div>
+  return (
+    <>
+      <div>
+        <HeroPage />
+        <Hero />
+        <Products />
+      </div>
     </>
-}
+  );
+};
 
 // import React, { useState, useEffect } from "react";
 // import { Navbar } from "./Navbar";

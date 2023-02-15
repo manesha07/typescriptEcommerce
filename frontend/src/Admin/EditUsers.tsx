@@ -1,10 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 import { useState} from 'react';
 import { ToastContainer } from 'react-toastify';
 import * as notify from "../utils/notify"
 import { useParams } from 'react-router-dom';
-import authHeader from '../authentication/authHeader.js';
+import authHeader from '../authentication/authHeader';
+import { Response } from 'src/typedeclaration';
+import { RequestHeaders } from 'src/typedeclaration';
 
 interface RegisterFormData {
 name: string;
@@ -12,6 +13,7 @@ username: string;
 password: string;
 email: string;
 }
+
 const Register: React.FC = () => {
   const [fullname,setFullname] = useState("");
   const [username,setUsername] = useState("");
@@ -20,19 +22,15 @@ const Register: React.FC = () => {
   const [repassword,setRepassword] = useState("");
   const {id} =useParams();
 
+  const headers: RequestHeaders = authHeader();
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-          console.log("register form data", {
-      name: fullname,
-      username: username,
-      password: password,
-      email: email,
-    });
 
       if(password !== repassword)
       {console.log("error")} 
 
-      const formData: RegisterFormData = {
+  const formData: RegisterFormData = {
   name: fullname,
   username: username,
   password: password,
@@ -41,19 +39,20 @@ const Register: React.FC = () => {
 
       fetch(`${process.env.REACT_APP_API_URL}/users/${id}`, {
         method: 'PUT', // or 'PUT'
-        headers:{ "Content-Type": "application/json" },
+        headers:headers as HeadersInit,
         body: JSON.stringify({name:fullname,username:username,password:password,email:email}),
       })
       .then((response) => response.json())
-      .then((data) => {console.log(data.details)
-        if(!data.details)
+      .then((data : Response) => {
+        if ("data" in data)  {
+        if(data.data)
        { console.log('Success:', data);
-        notify.success("Edited")}
+        notify.success("Edited")}}
         else{
           notify.error(data.details)
         }
       })
-        .catch((error) => {
+        .catch((error : string) => {
           notify.error(error)
           console.error('Error:', error);
         });

@@ -1,4 +1,4 @@
-import { connection } from '../knexfile';
+import { connection } from "../knexfile";
 
 /**
  * Base model for that can be used for all tables.
@@ -15,42 +15,44 @@ class DBModel {
     this.connection = connection;
   }
 
-
-
   async getAll1(): Promise<any> {
-    const data = await connection(this.table)
-      .select('*');
+    const data = await connection(this.table).select("*");
 
     return data;
   }
-    async getAll(pageNumber: number, itemsPerPage: number): Promise<any> {
+  async getAll(pageNumber: number, itemsPerPage: number): Promise<any> {
+    console.log("k bhata data1");
     const data = await connection(this.table)
-      .select('*')
+      .select("*")
       .limit(itemsPerPage)
       .offset((pageNumber - 1) * itemsPerPage);
+    console.log("k bhata data", data);
 
     return data;
   }
   async getById(id: number): Promise<any | null> {
-    const [data] = await connection(this.table).select('*').where('id', id);
+    const [data] = await connection(this.table).select("*").where("id", id);
 
     return data ? data : null;
   }
 
   async findByParams(params: any): Promise<any | null> {
-    const [data] = await connection(this.table).select('*').where(params);
+    const [data] = await connection(this.table).select("*").where(params);
 
     return data ? data : null;
   }
 
   async save(data: any): Promise<any> {
-    const result = await connection(this.table).insert(data).returning('*');
+    const result = await connection(this.table).insert(data).returning("*");
 
     return result;
   }
 
   async updateById(id: number, data: any): Promise<any> {
-    const result = await connection(this.table).update(data).where({ id }).returning('*');
+    const result = await connection(this.table)
+      .update(data)
+      .where({ id })
+      .returning("*");
 
     return result;
   }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import * as notify from "../utils/notify"
+import * as notify from "../utils/notify";
 import authHeader from "../authentication/authHeader.js";
 
 //checkoutform is diaplayed when the user orders the items/products
@@ -132,7 +132,6 @@ const CheckoutForm = () => {
       <ToastContainer autoClose={4000} />
     </>
   );
-}
-
+};
 
 export default CheckoutForm;

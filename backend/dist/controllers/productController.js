@@ -43,6 +43,7 @@ exports.createProduct = createProduct;
 //     .catch((err) => next(err));
 // }
 function getAllProducts(req, res, next) {
+    console.log("bhitra gayo?");
     const pageNumber = req.query.page || 1;
     const itemsPerPage = req.query.limit || 10;
     productService
@@ -70,6 +71,7 @@ function updateProduct(req, res, next) {
 exports.updateProduct = updateProduct;
 //Delete Product
 function deleteProduct(req, res, next) {
+    console.log("req.body", req.params.id);
     productService
         .deleteProduct(req.params.id)
         .then((data) => res.json(data))

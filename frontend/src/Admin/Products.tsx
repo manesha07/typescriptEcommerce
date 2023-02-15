@@ -3,52 +3,43 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { ToastContainer } from 'react-toastify';
 import * as notify from "../utils/notify"
-import authHeader from '../authentication/authHeader.js';
-
-interface Product {
-  i: number;
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  images: string;
-}
+import authHeader from '../authentication/authHeader';
+import { ProductType, Response ,RequestHeaders} from 'src/typedeclaration';
 
 const Products: React.FC = () => {
-  // const [products, setProducts] = useState("");
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [productsPerPage] = useState(5);
- const [products, setProducts] = useState<Product[]>([]);
+ const [products, setProducts] = useState<ProductType[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [productsPerPage] = useState<number>(5);
 
+  const headers: RequestHeaders = authHeader();
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/products`)
       .then((res) => res.json())
-      .then((data) => {
+      .then((data : Response) => {
         console.log("ddd", data);
-        setProducts(data.data);
+        if ("data" in data) {
+        setProducts(data.data);}
       });
   }, []);
 
-  const Delete = (id:Number) => {
+  const Delete = (id : Number) => {
     fetch(`${process.env.REACT_APP_API_URL}/products/${id}`, {
       method: "DELETE",
-      headers:  { "Content-Type": "application/json" },
+      headers : headers as HeadersInit,
     })
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
         fetch(`${process.env.REACT_APP_API_URL}/products`)
           .then((res) => res.json())
-          .then((data) => {
+          .then((data : Response) => {
             console.log("ddd", data);
-            if (!data.details) {
+            if ("data" in data) {
+            if (data.data) {
               setProducts(data.data);
               notify.success("deleted");
-            } else {
+            } }else {
               notify.error(data.details);
             }
           });

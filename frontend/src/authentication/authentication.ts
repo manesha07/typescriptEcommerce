@@ -1,19 +1,13 @@
 const logout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("cart");
-  };
-  
-  const getCurrentUser = () => {
-    // return JSON.parse(localStorage.getItem("user"));
-    return JSON.parse(localStorage.getItem('user') || '{}');
-  };
+  localStorage.removeItem("user");
+  localStorage.removeItem("cart");
+};
 
+const getCurrentUser = () => {
+  return JSON.parse(localStorage.getItem("user") || "{}");
+};
 
-
-   
-
-
-  export const authService =  {
-    getCurrentUser,
-    logout
-  }
+export const authService = {
+  getCurrentUser,
+  logout,
+};

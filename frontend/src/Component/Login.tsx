@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import * as notify from "../utils/notify"
+import * as notify from "../utils/notify";
 import * as Sentry from "@sentry/react";
+import { LoginResponse } from "src/typedeclaration";
 
 // This component is login for admin
 const Login = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
-  const handleSubmit =(event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     fetch(`${process.env.REACT_APP_API_URL}/login`, {
       method: "POST", // or 'PUT'
@@ -19,14 +20,16 @@ const Login = () => {
       body: JSON.stringify({ username: username, password: password }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then((data: LoginResponse) => {
         // if token is received then the login is successful otherwise error is thrown
-        if (data.data.token) {
-          localStorage.setItem("user", JSON.stringify(data.data.user));
-          localStorage.setItem("token", JSON.stringify(data.data.token));
-          notify.success("Login");
-          navigate("/");
-          window.location.reload();
+        if ("data" in data) {
+          if (data.data.token) {
+            localStorage.setItem("user", JSON.stringify(data.data.user));
+            localStorage.setItem("token", JSON.stringify(data.data.token));
+            notify.success("Login");
+            navigate("/");
+            window.location.reload();
+          }
         } else {
           console.log("login admin", data);
           notify.error(data.details);

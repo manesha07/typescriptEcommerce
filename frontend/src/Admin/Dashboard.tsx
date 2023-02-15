@@ -1,11 +1,9 @@
 import React, { useState, FC } from 'react';
-import { Footer } from '../Component/Footer';
-import { Navbar } from '../Component/Navbar';
 import Products from './Products';
 import Users from './Users';
 
 const Dashboard: React.FC = () => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState<boolean>(true);
 
   return (
     <>

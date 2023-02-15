@@ -9,9 +9,9 @@ import data from "./data.json";
 // }
 
 const Carousel = () => {
-const maxScrollWidth = useRef(0);
-const [currentIndex, setCurrentIndex] = useState(0);
-const carousel = useRef<HTMLDivElement>(null);
+  const maxScrollWidth = useRef(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const carousel = useRef<HTMLDivElement>(null);
 
   const movePrev = () => {
     if (currentIndex > 0) {
@@ -28,7 +28,7 @@ const carousel = useRef<HTMLDivElement>(null);
     }
   };
 
-  const isDisabled = (direction:string) => {
+  const isDisabled = (direction: string) => {
     if (direction === "prev") {
       return currentIndex <= 0;
     }

@@ -1,59 +1,50 @@
-import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { useState } from 'react'
-import { ToastContainer } from 'react-toastify';
-import * as notify from "../utils/notify"
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import { ToastContainer } from "react-toastify";
+import * as notify from "../utils/notify";
 import "./admin.css";
-import authHeader from '../authentication/authHeader.js';
-
-
-
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
-
+import authHeader from "../authentication/authHeader";
+import { Response, UserType, RequestHeaders } from "src/typedeclaration";
 
 const Users = () => {
-  // const [users, setUsers] = useState("");
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [usersPerPage] = useState(5);
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<UserType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(5);
+  const headers: RequestHeaders = authHeader();
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/users`)
       .then((res) => res.json())
-      .then((data) => {
-        console.log("mathi", data);
-        setUsers(data.data);
+      .then((data: Response) => {
+        if ("data" in data) {
+          setUsers(data.data);
+        }
       });
   }, []);
 
-  const Delete = (id:number) => {
+  const Delete = (id: number) => {
     fetch(`${process.env.REACT_APP_API_URL}/users/${id}`, {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: headers as HeadersInit,
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data.data);
+      .then((data: Response) => {
         fetch(`${process.env.REACT_APP_API_URL}/users`)
           .then((res) => res.json())
-          .then((data) => {
-            if (!data.details) {
-              console.log("ddd", data.data);
-              setUsers(data.data);
-              notify.success("deleted");
+          .then((data: Response) => {
+            if ("data" in data) {
+              if (data.data) {
+                console.log("ddd", data.data);
+                setUsers(data.data);
+                notify.success("deleted");
+              }
             } else {
               notify.error(data.details);
             }
           });
       })
-      .catch((error) => {
+      .catch((error: string) => {
         notify.error(error);
         console.error("Error:", error);
       });
@@ -64,7 +55,7 @@ const Users = () => {
   const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
 
   // Change page
-  const paginate = (pageNumber:Number) =>  setCurrentPage(Number(pageNumber));
+  const paginate = (pageNumber: Number) => setCurrentPage(Number(pageNumber));
 
   return (
     <>
@@ -93,7 +84,7 @@ const Users = () => {
                   <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                     <button
                       type="button"
-                     className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                      className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                     >
                       {" "}
                       <Link to={`../users/edit/${item.id}`}> Edit </Link>
@@ -103,7 +94,7 @@ const Users = () => {
                     {" "}
                     <button
                       type="button"
-                     className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                      className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                       onClick={() => {
                         Delete(item.id);
                       }}
@@ -131,8 +122,7 @@ const Users = () => {
                 >
                   <button
                     onClick={() => paginate(i + 1)}
-                   
-                   className ="page-link px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    className="page-link px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                   >
                     {i + 1}
                   </button>
@@ -145,6 +135,6 @@ const Users = () => {
       <ToastContainer autoClose={4000} />
     </>
   );
-}
+};
 
-export default Users
+export default Users;

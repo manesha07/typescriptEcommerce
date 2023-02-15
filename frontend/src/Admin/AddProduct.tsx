@@ -1,21 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import authHeader from '../authentication/authHeader';
-import { ToastContainer } from 'react-toastify';
+import React, { useState } from "react";
+import { ToastContainer } from "react-toastify";
 import * as notify from "../utils/notify";
 import axios from "axios";
-import  { FormEvent } from 'react';
+import { Response } from "src/typedeclaration";
+import { FormEvent } from "react";
 
-type Form = FormEvent<HTMLFormElement>;
-
-interface FormData {
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  category: string;
-  image: File;
-}
 const AddProduct: React.FC<{}> = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -23,24 +12,18 @@ const AddProduct: React.FC<{}> = () => {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [stock, setStock] = useState("");
-  const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-    name: '',
-    price: 0,
-    description: '',
-  });
-  // const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setImage(event.target.files?.[0]);
-  //   console.log(image, "im imahe");
-  // };
+  //   const [formData, setFormData] = useState({
+  //   name: '',
+  //   price: 0,
+  //   description: '',
+  // });
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  const file = event.target.files?.[0];
-  if (file) {
-    setImage(file);
-  }
-  console.log(image, "im imahe");
-};
+    const file = event.target.files?.[0];
+    if (file) {
+      setImage(file);
+    }
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,18 +34,24 @@ const AddProduct: React.FC<{}> = () => {
     formData.append("stock", stock);
     formData.append("category", category);
     formData.append("image", image!);
+    const adminToken = JSON.parse(localStorage.getItem("token") || "[]");
 
     axios
       .post(`${process.env.REACT_APP_API_URL}/products`, formData, {
-        method: "POST",
         headers: {
           "Content-Type": "multipart/form-data",
+          "Authorization": `Bearer ${adminToken}`,
         },
       })
-      .then((response) => response.data)
-      .then((data) => {
-        if (!data.details) {
-          notify.success("Added");
+      .then((response) => {
+        console.log("response data", response.data);
+        return response.data;
+      })
+      .then((data: Response) => {
+        if ("data" in data) {
+          if (data.data) {
+            notify.success("Added");
+          }
         } else {
           notify.error(data.details);
         }
@@ -73,7 +62,7 @@ const AddProduct: React.FC<{}> = () => {
       });
   };
 
- return (
+  return (
     <>
       <form
         onSubmit={handleSubmit}
@@ -184,7 +173,6 @@ const AddProduct: React.FC<{}> = () => {
       <ToastContainer autoClose={4000} />
     </>
   );
-}
-
+};
 
 export default AddProduct;

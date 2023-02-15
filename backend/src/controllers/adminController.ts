@@ -1,5 +1,5 @@
-import * as adminService from "../services/adminServices"
-import { Request, Response, NextFunction } from 'express';
+import * as adminService from "../services/adminServices";
+import { Request, Response, NextFunction } from "express";
 /**
  * Controller to add admin.
  *
@@ -8,10 +8,12 @@ import { Request, Response, NextFunction } from 'express';
  * @param {express.NextFunction} next - middleware function is called if err is thrown
  */
 export function addAdmin(req: Request, res: Response, next: NextFunction) {
-    adminService.saveAdmin(req.body)
-    .then ((data) => res.status(200).json(data))
+  adminService
+    .saveAdmin(req.body)
+    .then((data) => res.status(200).json(data))
     .catch((err) => {
-    next(err)}); 
+      next(err);
+    });
 }
 
 /**
@@ -24,13 +26,13 @@ export function addAdmin(req: Request, res: Response, next: NextFunction) {
 
 //details of functions
 export function getAllAdmins(req: Request, res: Response, next: NextFunction) {
-    adminService
-      .getAllAdmins()
-      .then((data) => res.json(data))
-      .catch((err) => next(err));
-  }
+  adminService
+    .getAllAdmins()
+    .then((data) => res.json(data))
+    .catch((err) => next(err));
+}
 
-  /**
+/**
  * Controller to update details of all admins.
  *
  * @param {express.Request} req - contains the data from the request body of updation of admin details
@@ -38,24 +40,34 @@ export function getAllAdmins(req: Request, res: Response, next: NextFunction) {
  * @param {express.NextFunction} next  - middleware function is called if err is thrown
  */
 
-export function updateAdmin (req: Request<{adminIdentifier: any}>, res: Response, next: NextFunction) :void {
-    // console.log("req",req.params.adminIdentifier,req.body)
-    adminService.updateAdminById(req.params.adminIdentifier,req.body)
+export function updateAdmin(
+  req: Request<{ adminIdentifier: any }>,
+  res: Response,
+  next: NextFunction
+): void {
+  // console.log("req",req.params.adminIdentifier,req.body)
+  adminService
+    .updateAdminById(req.params.adminIdentifier, req.body)
     .then((data) => res.json(data))
-    .catch((err) => next(err))
+    .catch((err) => next(err));
 }
 
-  /**
+/**
  * Controller to delete admin.
  *
  * @param {express.Request} req - contains the data from the request body of deletion of admin details
  * @param {express.Response} res - send the response back to the client
  * @param {express.NextFunction} next  - middleware function is called if err is thrown
  */
-export function deleteAdmin (req: Request<{adminIdentifier: number}>, res: Response, next: NextFunction) {
-    adminService.deleteAdminById(req.params.adminIdentifier)
+export function deleteAdmin(
+  req: Request<{ adminIdentifier: number }>,
+  res: Response,
+  next: NextFunction
+) {
+  adminService
+    .deleteAdminById(req.params.adminIdentifier)
     .then((data) => res.json(data))
-    .catch((err) => next(err))
+    .catch((err) => next(err));
 }
 
 /**
@@ -66,13 +78,13 @@ export function deleteAdmin (req: Request<{adminIdentifier: number}>, res: Respo
  * @param {express.NextFunction} next  - middleware function is called if err is thrown
  */
 export function login(req: Request, res: Response, next: NextFunction) {
-    adminService
-      .login(req.body)
-      .then((data) => res.json(data))
-      .catch((err) => next(err));
-  }
+  adminService
+    .login(req.body)
+    .then((data) => res.json(data))
+    .catch((err) => next(err));
+}
 
-  /**
+/**
  * Controller for registerAdmin.
  *
  * @param {express.Request} req - contains the data from the request body for register of admin
@@ -80,9 +92,8 @@ export function login(req: Request, res: Response, next: NextFunction) {
  * @param {express.NextFunction} next  - middleware function is called if err is thrown
  */
 export function registerAdmin(req: Request, res: Response, next: NextFunction) {
-    adminService
+  adminService
     .saveAdmin(req.body)
     .then((data) => res.json(data))
     .catch((err) => next(err));
 }
-

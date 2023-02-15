@@ -29,10 +29,12 @@ class DBModel {
     }
     getAll(pageNumber, itemsPerPage) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log("k bhata data1");
             const data = yield (0, knexfile_1.connection)(this.table)
                 .select('*')
                 .limit(itemsPerPage)
                 .offset((pageNumber - 1) * itemsPerPage);
+            console.log("k bhata data", data);
             return data;
         });
     }

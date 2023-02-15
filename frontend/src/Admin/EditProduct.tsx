@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ToastContainer} from 'react-toastify';
 import * as notify from "../utils/notify";
-import authHeader from '../authentication/authHeader.js';
 import axios from "axios";
+import { Response } from 'src/typedeclaration';
 
 interface FormData {
   name: string;
@@ -22,7 +22,6 @@ const EditProduct: React.FC = () => {
   const [category, setCategory] = useState("");
   const [stock, setStock] = useState<number | null>(null);
   const { id } = useParams();
-
 
 const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   const file = event.target.files?.[0];
@@ -43,36 +42,26 @@ const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       category,
       image: image!,
     };
-    //  const adminToken = JSON.parse(localStorage.getItem("token"));
- 
-    console.log("form", formData);
-    // formData.append("name", title);
-    // formData.append("description", description);
-    // formData.append("price", price);
-    // formData.append("stock", stock);
-    // formData.append("category", category);
-    // formData.append("image", image);
-    // console.log(image);
+    const adminToken = JSON.parse(localStorage.getItem("token") || '[]');
 
    axios
      .post(`${process.env.REACT_APP_API_URL}/products`, formData, {
-       method: "POST", // or 'PUT'
-
        headers: {
          "Content-Type": "multipart/form-data",
+         'Authorization': `Bearer ${ adminToken}`
        },
      })
      .then((response) => response.data)
-     .then((data) => {
-       console.log(data.details);
-       if (!data.details) {
+     .then((data : Response) => {
+      if ("data" in data)  {
+       if (data.data) {
          console.log("Success:", data);
-         notify.success("Edited");
+         notify.success("Edited");}
        } else {
          notify.error(data.details);
        }
      })
-     .catch((error) => {
+     .catch((error : string) => {
        notify.error(error);
        console.error("Error:", error);
      });

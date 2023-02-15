@@ -1,4 +1,4 @@
-import DBModel from './DBModel';
+import DBModel from "./DBModel";
 
 /**
  * Model for the 'users' table.
@@ -7,7 +7,7 @@ import DBModel from './DBModel';
  */
 class User extends DBModel {
   constructor() {
-    super('user');
+    super("user");
   }
 }
 

@@ -1,23 +1,23 @@
- import Knex from 'knex';
+import Knex from "knex";
 const configuration = {
-  client: 'pg',
+  client: "pg",
   connection: {
-    host: 'localhost',
+    host: "localhost",
     port: 5432,
-    user: 'postgres',
-    password: 'postgres',
-    database: 'typescriptecdb'
+    user: "postgres",
+    password: "postgres",
+    database: "typescriptecdb",
   },
   migrations: {
-    tableName: 'migrations',
+    tableName: "migrations",
   },
   seeds: {
-    directory: './seeds',
-    stub: './stub/seed.stub'
-  }
+    directory: "./seeds",
+    stub: "./stub/seed.stub",
+  },
 };
 
-// ELEPHANT SUJATA 
+// ELEPHANT SUJATA
 // ELEPHANT
 
 // import Knex from 'knex';

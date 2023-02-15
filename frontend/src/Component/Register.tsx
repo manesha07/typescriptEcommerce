@@ -4,37 +4,37 @@ import { useState } from "react";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { ToastContainer } from "react-toastify";
-import * as notify from "../utils/notify"
+import * as notify from "../utils/notify";
 import { useNavigate } from "react-router-dom";
 
 interface RegisterFormData {
-name: string;
-username: string;
-password: string;
-email: string;
+  name: string;
+  username: string;
+  password: string;
+  email: string;
 }
 
 //Register admin and save the details of admin in the backend
 const Register: React.FC = () => {
-const [fullname, setFullname] = useState("");
-const [username, setUsername] = useState("");
-const [email, setEmail] = useState("");
-const navigate = useNavigate();
-const [password, setPassword] = useState("");
-const [repassword, setRepassword] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const [password, setPassword] = useState("");
+  const [repassword, setRepassword] = useState("");
 
-const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-event.preventDefault();   
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (password !== repassword) {
       console.log("error");
     }
 
-const formData: RegisterFormData = {
-  name: fullname,
-  username: username,
-  password: password,
-  email: email,
-};
+    const formData: RegisterFormData = {
+      name: fullname,
+      username: username,
+      password: password,
+      email: email,
+    };
 
     fetch(`${process.env.REACT_APP_API_URL}/register`, {
       method: "POST", // or 'PUT'
@@ -43,6 +43,7 @@ const formData: RegisterFormData = {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log("Success1:", data);
         if (!data.details) {
           console.log("Success:", data);
           notify.success("registered");
