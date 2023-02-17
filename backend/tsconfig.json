@@ -6,7 +6,9 @@
       "noImplicitAny": true,
       "sourceMap": true,
       "outDir": "dist",
-      "esModuleInterop": true
+      "esModuleInterop": true,
+      "strict": true,
+      "strictFunctionTypes":true
     },
     "include": [
       "src/**/*.ts","**/*.ts", "**/*.tsx"

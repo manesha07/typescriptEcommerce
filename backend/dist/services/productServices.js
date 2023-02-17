@@ -19,6 +19,7 @@ const product_1 = __importDefault(require("../models/product"));
 function createProduct(data) {
     return __awaiter(this, void 0, void 0, function* () {
         const insertedData = yield new product_1.default().save(data);
+        console.log("inserted data", insertedData);
         return {
             data: insertedData,
             message: "Added Product successfully",
@@ -26,19 +27,6 @@ function createProduct(data) {
     });
 }
 exports.createProduct = createProduct;
-// //********************     Get all products   ********************//
-// export async function getAllProducts() {
-//   const data = await new Product().getAll();
-//   console.log("data ayauiuaia",data)
-//   if (!data) {
-//     console.log("Product not Found");
-//     throw Boom.badRequest("Product not Found");
-//   }
-//   return {
-//     data: data,
-//     message: "Find all  Products sucessfully",
-//   };
-// }
 //******************** Get all products ********************//
 function getAllProducts(pageNumber = 1, itemsPerPage = 12) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -46,7 +34,6 @@ function getAllProducts(pageNumber = 1, itemsPerPage = 12) {
         if (!data) {
             throw boom_1.default.badRequest("Product not Found");
         }
-        console.log("Database bta data", data);
         return {
             data: data,
             message: "Find all Products successfully",
@@ -68,7 +55,7 @@ function getProductDetails(id) {
     });
 }
 exports.getProductDetails = getProductDetails;
-// Update product -- only for Admin
+//Update product -- only for Admin
 function updateProduct(id, data) {
     return __awaiter(this, void 0, void 0, function* () {
         const oldData = yield new product_1.default().findByParams({ id: id });

@@ -7,7 +7,7 @@ export interface UserType {
   id: number;
   name: string;
   username: string;
-  email: string;
+  email: number;
 }
 
 export interface SuccessResponse {

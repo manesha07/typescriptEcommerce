@@ -15,41 +15,39 @@ class DBModel {
     this.connection = connection;
   }
 
-  async getAll1(): Promise<any> {
+  async getAll1(): Promise<Array<object> | null> {
     const data = await connection(this.table).select("*");
 
     return data;
   }
-  async getAll(pageNumber: number, itemsPerPage: number): Promise<any> {
-    console.log("k bhata data1");
+  async getAll(pageNumber: number, itemsPerPage: number): Promise<Array<object> | null> {
     const data = await connection(this.table)
       .select("*")
       .limit(itemsPerPage)
       .offset((pageNumber - 1) * itemsPerPage);
-    console.log("k bhata data", data);
 
     return data;
   }
 
-  async getById(id: number): Promise<Array<object> | null> {
+  async getById(id: number) : Promise<Array<object> | null> {
     const [data] = await connection(this.table).select('*').where('id', id);
 
     return data ? data : null;
   }
 
-  async findByParams(params: any): Promise<any | null> {
-    const [data] = await connection(this.table).select("*").where(params);
-
+  async findByParams(params: object): Promise<unknown> {
+    console.log("data find by param params",params)
+    const data = await connection(this.table).select("*").where(params);
+    console.log("data find by param",data)
     return data ? data : null;
   }
 
-  async save(data: any): Promise<any> {
+  async save(data: object): Promise<Array<object> | null> {
     const result = await connection(this.table).insert(data).returning("*");
-
     return result;
   }
 
-  async updateById(id: number, data: any): Promise<any> {
+  async updateById(id: number, data: object): Promise<Array<object> | null> {
     const result = await connection(this.table)
       .update(data)
       .where({ id })
@@ -58,24 +56,16 @@ class DBModel {
     return result;
   }
 
-  async removeById(id: number): Promise<any> {
-    console.log("llllllif", id);
+  async removeById(id: number): Promise<number | null> {
     const result = await connection(this.table).delete().where({ id });
-    console.log("llllll", result);
     return result;
   }
 
-  async removeByParams(params: any): Promise<any> {
+  async removeByParams(params: object):Promise<number | null>{
     const result = await connection(this.table).delete().where(params);
-    console.log("result1", result);
     return result;
   }
 
-  async query(sql: string, params: any): Promise<any> {
-    const result = await connection.raw(sql, params);
-
-    return result.rows;
-  }
 }
 
 export default DBModel;

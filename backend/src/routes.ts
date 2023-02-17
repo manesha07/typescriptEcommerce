@@ -10,8 +10,10 @@ import editUserSchema from "./schemas/editUser.js";
 import editAdminSchema from "./schemas/editAdmin.js";
 import { validateBody } from "./middleware/validation.js";
 import authenticate from "./middleware/authenticate.js";
+import { AddUsers } from "./types/index.js";
 import * as dotenv from "dotenv";
 dotenv.config({ path: ".env" });
+import { uploadImage } from "./controllers/productController.js";
 
 console.log("router", process.env.PORT);
 
@@ -66,8 +68,9 @@ router.get("/products", productController.getAllProducts);
 
 router.post(
   "/products",
-  authenticate,
-  validateBody(addProductSchema),
+  // authenticate,
+  // validateBody(addProductSchema),
+  uploadImage,
   productController.createProduct
 );
 router.get("/products/:id", productController.getProductDetails);

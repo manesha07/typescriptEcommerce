@@ -1,6 +1,7 @@
 import Joi from 'joi';
+import { AddProduct } from '../types';
 
-const schema = Joi.object({
+const schema = Joi.object<AddProduct>({
   name: Joi.string().max(100).required(),
   description: Joi.string().max(200).required(),
   price: Joi.number().required(),

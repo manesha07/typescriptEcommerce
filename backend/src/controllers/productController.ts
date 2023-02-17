@@ -1,15 +1,36 @@
 import * as productService from "../services/productServices.js";
 import { Request, Response, NextFunction } from 'express';
-import { AddProduct,UpdateProduct } from "../types";
+import { UpdateProduct } from "../types";
+
+import multer from "multer";
+
+const storage = multer.diskStorage({
+  destination: (req: Request, file, cb) => {
+    cb(null, "./src/uploads");
+  },
+  filename: (req: Request, file, cb) => {
+    // cb(null, ${Date.now()}-${file.originalname});
+     cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
 //Create Product-- only for Admin
 export function createProduct(req: Request, res: Response, next: NextFunction) {
-  const body = req.body as AddProduct;
+  console.log("req.body",req.body)
 
-  productService
-    .createProduct(req.body)
-    .then((data) => res.json(data))
-    .catch((err) => next(err));
+    if (req.file) {
+      productService
+      .createProduct({ ...req.body, images: req.file.filename })
+      .then((data) => res.json(data))
+      .catch((err) => next(err));
+    } else {
+      console.log("file is not found")
+    }
 }
+
+export const uploadImage = upload.single("image");
 
 export function getAllProducts(
   req: Request<{ page: any; limit: any }>,

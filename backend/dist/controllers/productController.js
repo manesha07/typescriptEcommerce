@@ -22,26 +22,38 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteProduct = exports.updateProduct = exports.getProductDetails = exports.getAllProducts = exports.createProduct = void 0;
+exports.deleteProduct = exports.updateProduct = exports.getProductDetails = exports.getAllProducts = exports.uploadImage = exports.createProduct = void 0;
 const productService = __importStar(require("../services/productServices.js"));
+const multer_1 = __importDefault(require("multer"));
+const storage = multer_1.default.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./src/uploads");
+    },
+    filename: (req, file, cb) => {
+        // cb(null, ${Date.now()}-${file.originalname});
+        cb(null, file.originalname);
+    },
+});
+const upload = (0, multer_1.default)({ storage: storage });
 //Create Product-- only for Admin
 function createProduct(req, res, next) {
-    const body = req.body;
-    productService
-        .createProduct(req.body)
-        .then((data) => res.json(data))
-        .catch((err) => next(err));
+    console.log("req.body", req.body);
+    if (req.file) {
+        productService
+            .createProduct(Object.assign(Object.assign({}, req.body), { images: req.file.filename }))
+            .then((data) => res.json(data))
+            .catch((err) => next(err));
+    }
+    else {
+        console.log("file is not found");
+    }
 }
 exports.createProduct = createProduct;
-// export function getAllProducts(req: Request, res: Response, next: NextFunction) {
-//   const product = req.params;
-//   console.log("dsa",req.params)
-//   productService
-//     .getAllProducts(req.params)
-//     .then((data) => res.json(data))
-//     .catch((err) => next(err));
-// }
+exports.uploadImage = upload.single("image");
 function getAllProducts(req, res, next) {
     console.log("bhitra gayo?");
     const pageNumber = req.query.page || 1;
@@ -65,7 +77,7 @@ exports.getProductDetails = getProductDetails;
 function updateProduct(req, res, next) {
     const body = req.body;
     productService
-        .updateProduct(req.params.id, req.body)
+        .updateProduct(req.params.id, body)
         .then((data) => res.json(data))
         .catch((err) => next(err));
 }

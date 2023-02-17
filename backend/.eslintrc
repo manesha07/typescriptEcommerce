@@ -1,0 +1,36 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+        // "@typescript-eslint/no-explicit-any": "error"
+        // "@typescript-eslint/explicit-module-boundary-types": "error",
+        // "@typescript-eslint/consistent-type-assertions": ["error", {"assertionStyle": "as", "objectLiteralTypeAssertions": "allow"}],
+        // "@typescript-eslint/consistent-type-definitions": ["error", "interface"]
+    }
+  }
+
+// {
+//   "parser": "@typescript-eslint/parser",
+//   "plugins": [
+//     "@typescript-eslint"
+//   ],
+//   "extends": [
+//     "eslint:recommended",
+//     "plugin:@typescript-eslint/recommended"
+//   ],
+//     "rules": {
+//       "@typescript-eslint/explicit-function-return-type": "error",
+//       "@typescript-eslint/explicit-module-boundary-types": "error",
+//       "@typescript-eslint/no-explicit-any": "error",
+//       "@typescript-eslint/prefer-ts-expect-error": "warn"
+//     },
+//     "parserOptions": {
+//       "project": "./tsconfig.json"
+//     }
+// }

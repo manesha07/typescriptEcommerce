@@ -1,5 +1,6 @@
 import Boom from "@hapi/boom";
 import Product from "../models/product";
+import { ExistingProduct ,UpdateProduct} from "../types";
 
 export interface ProductData {
   name: string;
@@ -14,7 +15,7 @@ export async function createProduct(
   data: ProductData
 ): Promise<{ data: any; message: string }> {
   const insertedData = await new Product().save(data);
-
+console.log("inserted data",insertedData)
   return {
     data: insertedData,
     message: "Added Product successfully",
@@ -23,7 +24,7 @@ export async function createProduct(
 
 //******************** Get all products ********************//
 export async function getAllProducts(
-pageNumber: number = 1,  itemsPerPage: number = 12
+pageNumber = 1,  itemsPerPage = 12
 ): Promise<{ data: object; message: string }> {
 
 const data = await new Product().getAll(pageNumber, itemsPerPage);
@@ -48,12 +49,12 @@ message: "Find Product successfully",
 };
 }
 
-// Update product -- only for Admin
+//Update product -- only for Admin
 export async function updateProduct(
   id: number,
-  data: ProductData
+  data: UpdateProduct
 ): Promise<{ data: any; message: string }> {
-  const oldData = await new Product().findByParams({ id: id });
+  const oldData = await new Product().findByParams({ id: id }) as ExistingProduct;
 
   const updatedData: ProductData = {
     name: data.name || oldData.name,
@@ -77,7 +78,7 @@ export async function updateProduct(
 // Delete product
 export async function deleteProduct(
   id: number
-): Promise<{ data: any; message: string }> {
+): Promise<{ data:any; message: string }> {
   const returnedData = await new Product().removeById(id);
 
   return {

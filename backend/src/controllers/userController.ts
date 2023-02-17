@@ -19,13 +19,13 @@ export function addUser(req: Request, res: Response, next: NextFunction) {
     });
 }
 
-export function checkoutUser(req: Request, res: Response, next: NextFunction) {
-  const { name, email, phone, address } = req.body;
-  userService
-    .saveCheckout(req.body)
-    .then((data) => res.json(data))
-    .catch((err) => next(err));
-}
+// export function checkoutUser(req: Request, res: Response, next: NextFunction) {
+//   const { name, email, phone, address } = req.body;
+//   userService
+//     .saveCheckout(req.body)
+//     .then((data) => res.json(data))
+//     .catch((err) => next(err));
+// }
 
 /**
  * Controller to get details of all Users.

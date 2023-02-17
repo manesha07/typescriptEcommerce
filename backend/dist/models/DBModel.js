@@ -22,19 +22,16 @@ class DBModel {
     }
     getAll1() {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield (0, knexfile_1.connection)(this.table)
-                .select('*');
+            const data = yield (0, knexfile_1.connection)(this.table).select("*");
             return data;
         });
     }
     getAll(pageNumber, itemsPerPage) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("k bhata data1");
             const data = yield (0, knexfile_1.connection)(this.table)
-                .select('*')
+                .select("*")
                 .limit(itemsPerPage)
                 .offset((pageNumber - 1) * itemsPerPage);
-            console.log("k bhata data", data);
             return data;
         });
     }
@@ -46,41 +43,37 @@ class DBModel {
     }
     findByParams(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            const [data] = yield (0, knexfile_1.connection)(this.table).select('*').where(params);
+            console.log("data find by param params", params);
+            const data = yield (0, knexfile_1.connection)(this.table).select("*").where(params);
+            console.log("data find by param", data);
             return data ? data : null;
         });
     }
     save(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield (0, knexfile_1.connection)(this.table).insert(data).returning('*');
+            const result = yield (0, knexfile_1.connection)(this.table).insert(data).returning("*");
             return result;
         });
     }
     updateById(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield (0, knexfile_1.connection)(this.table).update(data).where({ id }).returning('*');
+            const result = yield (0, knexfile_1.connection)(this.table)
+                .update(data)
+                .where({ id })
+                .returning("*");
             return result;
         });
     }
     removeById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("llllllif", id);
             const result = yield (0, knexfile_1.connection)(this.table).delete().where({ id });
-            console.log("llllll", result);
             return result;
         });
     }
     removeByParams(params) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield (0, knexfile_1.connection)(this.table).delete().where(params);
-            console.log("result1", result);
             return result;
-        });
-    }
-    query(sql, params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const result = yield knexfile_1.connection.raw(sql, params);
-            return result.rows;
         });
     }
 }

@@ -1,10 +1,15 @@
 import Boom from "@hapi/boom";
-import { string } from "joi";
-import { registerAdmin } from "../controllers/adminController";
-import { AddUsers,LoginUsers,UpdateUsers,ExistingUser } from "../types";
+import { AddUsers,LoginUsers,UpdateUsers } from "../types";
 import Admin from "../models/admin"
-import User from "../models/user";
 import { hash, compare, createToken } from '../utils/crypt';
+
+export interface ExistingUser {
+  id?: number;
+  name: string;
+  password :string;
+  username : string;
+  email: string;
+}
 
 /**
  *
@@ -13,12 +18,15 @@ import { hash, compare, createToken } from '../utils/crypt';
  */
 
 export async function saveAdmin(data :AddUsers) {
-    const {name,username,password,email} =data;
-    const existingUser :ExistingUser = await new Admin().findByParams({name:name ,username:username,email:email});
+    const {name,username,password,email} =data as ExistingUser;
+    const existingUser  = await new Admin().findByParams({name:name ,username:username,email:email}) as ExistingUser[];
+    console.log("existing users",existingUser)
+      if (existingUser) {
+        throw Boom.badRequest("User already exist");
+      }
 
-  if (existingUser) {
-    throw Boom.badRequest("User already exist");
-  }
+
+
   const hashedPassword = hash(password);
 
   const insertedData = await new Admin().save({
@@ -40,7 +48,7 @@ export async function saveAdmin(data :AddUsers) {
  * @returns {Object} {data: returnedData ,message: 'Succesfully fetched all data'}
  */
 export async function getAllAdmins() {
-  const returnedData = await new Admin().getAll1();
+  const returnedData = await new Admin().getAll1() as ExistingUser[];
 
   return {
     data: returnedData,
@@ -57,7 +65,7 @@ export async function getAllAdmins() {
  */
 
 export async function updateAdminById(id :number,data :UpdateUsers) {
-    const returnedData = await new Admin().updateById(id,data);
+    const returnedData = await new Admin().updateById(id,data) as ExistingUser[];
 
   return {
     data: returnedData,
@@ -71,7 +79,7 @@ export async function updateAdminById(id :number,data :UpdateUsers) {
  * @param {Number} id - id of admin to delete
  * @returns {Object} { data: 1,message: 'Succesfully deleted admin'}
  */
-export async function deleteAdminById(id: number) {
+export async function deleteAdminById(id: number)  {
   const returnedData = await new Admin().removeById(id);
 
   return {
@@ -103,11 +111,11 @@ export async function login(params:LoginUsers) {
        };
           }
 
-    const existingUser :ExistingUser= await new Admin().findByParams({username:params.username});
-    if (!existingUser) {
-   
-      throw new (Boom.badRequest as any)('Invalid credentials');
-    }
+          const existingUser : any = await new Admin().findByParams({ username:username, password:password}) as ExistingUser[];
+
+            if (existingUser) {
+              throw Boom.badRequest("User already exist");
+            }
     const doesPasswordMatch = compare(password , existingUser.password);
   
     if (!doesPasswordMatch) {

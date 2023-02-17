@@ -57,12 +57,12 @@ function getAllAdmins(req, res, next) {
 }
 exports.getAllAdmins = getAllAdmins;
 /**
-* Controller to update details of all admins.
-*
-* @param {express.Request} req - contains the data from the request body of updation of admin details
-* @param {express.Response} res - send the response back to the client
-* @param {express.NextFunction} next  - middleware function is called if err is thrown
-*/
+ * Controller to update details of all admins.
+ *
+ * @param {express.Request} req - contains the data from the request body of updation of admin details
+ * @param {express.Response} res - send the response back to the client
+ * @param {express.NextFunction} next  - middleware function is called if err is thrown
+ */
 function updateAdmin(req, res, next) {
     const body = req.body;
     adminService.updateAdminById(req.params.adminIdentifier, body)
@@ -71,14 +71,15 @@ function updateAdmin(req, res, next) {
 }
 exports.updateAdmin = updateAdmin;
 /**
-* Controller to delete admin.
-*
-* @param {express.Request} req - contains the data from the request body of deletion of admin details
-* @param {express.Response} res - send the response back to the client
-* @param {express.NextFunction} next  - middleware function is called if err is thrown
-*/
+ * Controller to delete admin.
+ *
+ * @param {express.Request} req - contains the data from the request body of deletion of admin details
+ * @param {express.Response} res - send the response back to the client
+ * @param {express.NextFunction} next  - middleware function is called if err is thrown
+ */
 function deleteAdmin(req, res, next) {
-    adminService.deleteAdminById(req.params.adminIdentifier)
+    adminService
+        .deleteAdminById(req.params.adminIdentifier)
         .then((data) => res.json(data))
         .catch((err) => next(err));
 }

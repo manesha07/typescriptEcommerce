@@ -12,20 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.saveCheckout = exports.login = exports.deleteUserById = exports.updateUserById = exports.getUserDetails = exports.getAllUsers = exports.saveUser = exports.registerUser = void 0;
+exports.login = exports.deleteUserById = exports.updateUserById = exports.getUserDetails = exports.getAllUsers = exports.saveUser = exports.registerUser = void 0;
 const boom_1 = __importDefault(require("@hapi/boom"));
 const user_1 = __importDefault(require("../models/user"));
-const checkout_js_1 = __importDefault(require("../models/checkout.js"));
 function registerUser(data) {
     return __awaiter(this, void 0, void 0, function* () {
         const existingUser = yield new user_1.default().findByParams(data);
         if (existingUser) {
-            throw boom_1.default.badRequest('User already exist');
+            throw boom_1.default.badRequest("User already exist");
         }
         const insertedData = yield new user_1.default().save(data);
         return {
             data: insertedData,
-            message: 'Added User successfully',
+            message: "Added User successfully",
         };
     });
 }
@@ -34,12 +33,12 @@ function saveUser(data) {
     return __awaiter(this, void 0, void 0, function* () {
         const existingUser = yield new user_1.default().findByParams(data);
         if (existingUser) {
-            throw boom_1.default.badRequest('User already exist');
+            throw boom_1.default.badRequest("User already exist");
         }
         const insertedData = yield new user_1.default().save(data);
         return {
             data: insertedData,
-            message: 'Added User/customer sucessfully'
+            message: "Added User/customer sucessfully",
         };
     });
 }
@@ -79,7 +78,7 @@ function updateUserById(id, data) {
         const returnedData = yield new user_1.default().updateById(id, updatedData);
         return {
             data: returnedData,
-            message: 'Succesfully updated user'
+            message: "Succesfully updated user",
         };
     });
 }
@@ -89,7 +88,7 @@ function deleteUserById(id) {
         const returnedData = yield new user_1.default().removeById(id);
         return {
             data: returnedData,
-            message: 'Succesfully deleted customer/user'
+            message: "Succesfully deleted customer/user",
         };
     });
 }
@@ -104,29 +103,26 @@ function login(params) {
     return __awaiter(this, void 0, void 0, function* () {
         const existingUser = yield new user_1.default().findByParams(params);
         if (!existingUser) {
-            throw new boom_1.default.badRequest('Invalid credentials');
+            throw new boom_1.default.badRequest("Invalid credentials");
         }
         const user = {
             id: existingUser.id,
             name: existingUser.name,
             email: existingUser.email,
-            currentUser: 'user'
+            currentUser: "user",
         };
         return {
             data: { user },
-            message: 'User/Customer Logged in succesfully',
+            message: "User/Customer Logged in succesfully",
         };
     });
 }
 exports.login = login;
-function saveCheckout(data) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const insertedData = yield new checkout_js_1.default().save(data);
-        return {
-            data: insertedData,
-            message: "Added Checkout sucessfully",
-        };
-    });
-}
-exports.saveCheckout = saveCheckout;
+// export async function saveCheckout(data: object) {
+//   const insertedData = await new Checkout().save(data);
+//   return {
+//     data: insertedData,
+//     message: "Added Checkout sucessfully",
+//   };
+// }
 //# sourceMappingURL=userServices.js.map

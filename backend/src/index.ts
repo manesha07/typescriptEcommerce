@@ -12,6 +12,7 @@ dotenv.config({ path: ".env" });
 console.log(process.env.PORT);
 app.use(cors());
 app.use(bodyParser.json());
+app.use("/uploads", express.static("src/uploads"));
 
 app.use(router);
 app.use(errorHandler);

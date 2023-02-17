@@ -11,10 +11,11 @@ const routes_1 = __importDefault(require("./routes"));
 // import {connectDatabase} from "./database/connection.js"
 const errorHandler_1 = __importDefault(require("./middleware/errorHandler"));
 const app = (0, express_1.default)();
-dotenv_1.default.config({ path: '.env' });
+dotenv_1.default.config({ path: ".env" });
 console.log(process.env.PORT);
 app.use((0, cors_1.default)());
 app.use(body_parser_1.default.json());
+app.use("/uploads", express_1.default.static("src/uploads"));
 app.use(routes_1.default);
 app.use(errorHandler_1.default);
 // connectDatabase()

@@ -1,6 +1,7 @@
 import Joi from 'joi';
+import { UpdateUsers } from '../types';
 
-const schema = Joi.object({
+const schema = Joi.object<UpdateUsers>({
   name: Joi.string().max(50).allow(null, ''),
   username: Joi.string().max(50).allow(null, ''),
   password: Joi.string().min(8).max(20).allow(null, ''),

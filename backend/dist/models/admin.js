@@ -11,7 +11,7 @@ const DBModel_1 = __importDefault(require("./DBModel"));
  */
 class Admin extends DBModel_1.default {
     constructor() {
-        super('admin');
+        super("admin");
     }
 }
 exports.default = Admin;

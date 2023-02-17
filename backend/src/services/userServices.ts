@@ -1,8 +1,7 @@
 import Boom from "@hapi/boom";
 
 import User from "../models/user";
-import Checkout from "../models/checkout.js";
-import { hash, compare, createToken } from "../utils/crypt";
+import { ExistingUser,UpdateUsers } from "../types";
 
 export async function registerUser(data: object) {
   const existingUser = await new User().findByParams(data);
@@ -52,8 +51,8 @@ export async function getUserDetails(id: number) {
   };
 }
 
-export async function updateUserById(id: number, data: any) {
-  const oldData = await new User().findByParams({ id: id });
+export async function updateUserById(id: number, data: UpdateUsers ) {
+  const oldData = await new User().findByParams({ id: id }) as ExistingUser;
 
   const updatedData = {
     name: data.name || oldData.name,
@@ -85,7 +84,7 @@ export async function deleteUserById(id: number) {
  * @return {Object}
  */
 export async function login(params: object) {
-  const existingUser = await new User().findByParams(params);
+  const existingUser : any= await new User().findByParams(params);
   if (!existingUser) {
     throw new (Boom.badRequest as any)("Invalid credentials");
   }
@@ -103,11 +102,11 @@ export async function login(params: object) {
   };
 }
 
-export async function saveCheckout(data: object) {
-  const insertedData = await new Checkout().save(data);
+// export async function saveCheckout(data: object) {
+//   const insertedData = await new Checkout().save(data);
 
-  return {
-    data: insertedData,
-    message: "Added Checkout sucessfully",
-  };
-}
+//   return {
+//     data: insertedData,
+//     message: "Added Checkout sucessfully",
+//   };
+// }

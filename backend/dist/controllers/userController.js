@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.deleteUser = exports.updateUser = exports.getUserDetails = exports.getAllUsers = exports.checkoutUser = exports.addUser = exports.registerUser = void 0;
+exports.login = exports.deleteUser = exports.updateUser = exports.getUserDetails = exports.getAllUsers = exports.addUser = exports.registerUser = void 0;
 const userService = __importStar(require("../services/userServices.js"));
 function registerUser(req, res, next) {
     const body = req.body;
@@ -34,21 +34,21 @@ function registerUser(req, res, next) {
 }
 exports.registerUser = registerUser;
 function addUser(req, res, next) {
-    userService.saveUser(req.body)
+    userService
+        .saveUser(req.body)
         .then((data) => res.status(200).json(data))
         .catch((err) => {
         next(err);
     });
 }
 exports.addUser = addUser;
-function checkoutUser(req, res, next) {
-    const { name, email, phone, address } = req.body;
-    userService
-        .saveCheckout(req.body)
-        .then((data) => res.json(data))
-        .catch((err) => next(err));
-}
-exports.checkoutUser = checkoutUser;
+// export function checkoutUser(req: Request, res: Response, next: NextFunction) {
+//   const { name, email, phone, address } = req.body;
+//   userService
+//     .saveCheckout(req.body)
+//     .then((data) => res.json(data))
+//     .catch((err) => next(err));
+// }
 /**
  * Controller to get details of all Users.
  *
@@ -81,7 +81,8 @@ function updateUser(req, res, next) {
 }
 exports.updateUser = updateUser;
 function deleteUser(req, res, next) {
-    userService.deleteUserById(req.params.userIdentifier)
+    userService
+        .deleteUserById(req.params.userIdentifier)
         .then((data) => res.json(data))
         .catch((err) => next(err));
 }

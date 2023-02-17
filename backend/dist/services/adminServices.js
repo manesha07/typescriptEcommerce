@@ -25,14 +25,20 @@ function saveAdmin(data) {
     return __awaiter(this, void 0, void 0, function* () {
         const { name, username, password, email } = data;
         const existingUser = yield new admin_1.default().findByParams({ name: name, username: username, email: email });
+        console.log("existing users", existingUser);
         if (existingUser) {
-            throw boom_1.default.badRequest('User already exist');
+            throw boom_1.default.badRequest("User already exist");
         }
         const hashedPassword = (0, crypt_1.hash)(password);
-        const insertedData = yield new admin_1.default().save({ name: name, username: username, email: email, password: hashedPassword });
+        const insertedData = yield new admin_1.default().save({
+            name: name,
+            username: username,
+            email: email,
+            password: hashedPassword,
+        });
         return {
             data: insertedData,
-            message: 'Added Admin sucessfully'
+            message: "Added Admin sucessfully",
         };
     });
 }
@@ -47,7 +53,7 @@ function getAllAdmins() {
         const returnedData = yield new admin_1.default().getAll1();
         return {
             data: returnedData,
-            message: 'Succesfully fetched all data'
+            message: "Succesfully fetched all data",
         };
     });
 }
@@ -64,7 +70,7 @@ function updateAdminById(id, data) {
         const returnedData = yield new admin_1.default().updateById(id, data);
         return {
             data: returnedData,
-            message: 'Succesfully updated admin'
+            message: "Succesfully updated admin",
         };
     });
 }
@@ -80,7 +86,7 @@ function deleteAdminById(id) {
         const returnedData = yield new admin_1.default().removeById(id);
         return {
             data: returnedData,
-            message: 'Succesfully deleted admin'
+            message: "Succesfully deleted admin",
         };
     });
 }
@@ -93,9 +99,9 @@ function login(params) {
                 message: "Please enter username and password",
             };
         }
-        const existingUser = yield new admin_1.default().findByParams({ username: params.username });
-        if (!existingUser) {
-            throw new boom_1.default.badRequest('Invalid credentials');
+        const existingUser = yield new admin_1.default().findByParams({ username: username, password: password });
+        if (existingUser) {
+            throw boom_1.default.badRequest("User already exist");
         }
         const doesPasswordMatch = (0, crypt_1.compare)(password, existingUser.password);
         if (!doesPasswordMatch) {

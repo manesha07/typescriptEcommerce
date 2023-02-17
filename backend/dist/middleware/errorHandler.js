@@ -23,7 +23,7 @@ function buildError(err) {
     if (joi_1.default.isError(err)) {
         return {
             code: http_status_codes_1.default.BAD_REQUEST,
-            message: 'Validation Error',
+            message: "Validation Error",
             details: err.details.map((e) => e.message),
         };
     }
@@ -34,7 +34,7 @@ function buildError(err) {
             details: err.output.payload.message,
         };
     }
-    if (err.name === 'UnauthorizedError') {
+    if (err.name === "UnauthorizedError") {
         return {
             code: http_status_codes_1.default.UNAUTHORIZED,
             message: http_status_codes_1.default.getStatusText(http_status_codes_1.default.UNAUTHORIZED),
@@ -45,7 +45,7 @@ function buildError(err) {
     return {
         code: http_status_codes_1.default.INTERNAL_SERVER_ERROR,
         message: http_status_codes_1.default.getStatusText(http_status_codes_1.default.INTERNAL_SERVER_ERROR),
-        details: err.message || '',
+        details: err.message || "",
     };
 }
 //# sourceMappingURL=errorHandler.js.map

@@ -25,9 +25,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_jwt_1 = require("express-jwt");
 const dotenv = __importStar(require("dotenv"));
-dotenv.config({ path: '.env' });
+dotenv.config({ path: ".env" });
 exports.default = (0, express_jwt_1.expressjwt)({
     secret: process.env.TOKEN_SECRET,
-    algorithms: ['HS256']
+    algorithms: ["HS256"],
 });
 //# sourceMappingURL=authenticate.js.map

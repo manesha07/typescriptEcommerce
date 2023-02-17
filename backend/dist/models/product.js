@@ -11,7 +11,7 @@ const DBModel_1 = __importDefault(require("./DBModel"));
  */
 class Product extends DBModel_1.default {
     constructor() {
-        super('product');
+        super("product");
     }
 }
 exports.default = Product;
