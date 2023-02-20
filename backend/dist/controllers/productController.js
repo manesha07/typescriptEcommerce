@@ -56,17 +56,15 @@ exports.createProduct = createProduct;
 exports.uploadImage = upload.single("image");
 function getAllProducts(req, res, next) {
     console.log("bhitra gayo?");
-    const pageNumber = req.query.page || 1;
-    const itemsPerPage = req.query.limit || 10;
     productService
-        .getAllProducts(pageNumber, itemsPerPage)
+        .getAllProducts()
         .then((data) => res.json(data))
         .catch((err) => next(err));
 }
 exports.getAllProducts = getAllProducts;
 //get product details
 function getProductDetails(req, res, next) {
-    const product = req.params.id;
+    console.log("id aunu paryo", req.params.id);
     productService
         .getProductDetails(req.params.id)
         .then((data) => res.json(data))

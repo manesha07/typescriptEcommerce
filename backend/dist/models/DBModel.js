@@ -30,14 +30,15 @@ class DBModel {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield (0, knexfile_1.connection)(this.table)
                 .select("*")
-                .limit(itemsPerPage)
-                .offset((pageNumber - 1) * itemsPerPage);
+                .limit(+itemsPerPage)
+                .offset((+pageNumber - 1) * (+itemsPerPage));
             return data;
         });
     }
     getById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const [data] = yield (0, knexfile_1.connection)(this.table).select('*').where('id', id);
+            const data = yield (0, knexfile_1.connection)(this.table).select('*').where('id', +id);
+            console.log("databyid", data);
             return data ? data : null;
         });
     }
@@ -59,14 +60,14 @@ class DBModel {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield (0, knexfile_1.connection)(this.table)
                 .update(data)
-                .where({ id })
+                .where({ id: +id })
                 .returning("*");
             return result;
         });
     }
     removeById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield (0, knexfile_1.connection)(this.table).delete().where({ id });
+            const result = yield (0, knexfile_1.connection)(this.table).delete().where({ id: +id });
             return result;
         });
     }

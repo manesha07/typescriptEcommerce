@@ -94,19 +94,14 @@ exports.deleteAdminById = deleteAdminById;
 function login(params) {
     return __awaiter(this, void 0, void 0, function* () {
         const { username, password } = params;
-        if (!username || !password) {
-            return {
-                message: "Please enter username and password",
-            };
-        }
         const existingUser = yield new admin_1.default().findByParams({ username: username, password: password });
-        if (existingUser) {
-            throw boom_1.default.badRequest("User already exist");
+        if (!existingUser) {
+            throw boom_1.default.badRequest("User does not exist");
         }
-        const doesPasswordMatch = (0, crypt_1.compare)(password, existingUser.password);
-        if (!doesPasswordMatch) {
-            throw new boom_1.default.badRequest('Invalid credentials');
-        }
+        // const doesPasswordMatch = compare(password , existingUser.password);
+        // if (!doesPasswordMatch) {
+        //   throw new (Boom.badRequest as any)('Invalid credentials');
+        // }
         const user = {
             id: existingUser.id,
             name: existingUser.name,

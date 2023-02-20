@@ -15,7 +15,7 @@ export interface LoginUsers {
   password: string;
 }
 export interface ExistingUser {
-  id: number,
+  id?: number,
   name: string,
   email: string,
   password:string,
@@ -38,6 +38,11 @@ export interface ExistingProduct {
   category:string,
   images:string
 }
+
+export interface ResponseData {
+  data: ExistingProduct;
+  message:string
+}
 export interface UpdateProduct {
   name:string| null,
   description:string| null,
@@ -53,3 +58,18 @@ export interface Configuration {
   password: string;
   database: string;
 }
+export interface ProductData {
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  category: string;
+  images: string;
+}
+export interface UserType {
+  id: number,
+  name: string,
+  email: string,
+  currentUser: string,
+}
+

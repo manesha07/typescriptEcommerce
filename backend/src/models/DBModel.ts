@@ -20,44 +20,45 @@ class DBModel {
 
     return data;
   }
-  async getAll(pageNumber: number, itemsPerPage: number): Promise<Array<object> | null> {
+
+  async getAll(pageNumber: string, itemsPerPage: string): Promise<Array<object> | null> {
     const data = await connection(this.table)
       .select("*")
-      .limit(itemsPerPage)
-      .offset((pageNumber - 1) * itemsPerPage);
+      .limit(+itemsPerPage)
+      .offset((+pageNumber - 1) * (+itemsPerPage));
 
     return data;
   }
 
-  async getById(id: number) : Promise<Array<object> | null> {
-    const [data] = await connection(this.table).select('*').where('id', id);
-
+  async getById(id: string) : Promise<object | null> {
+    const data = await connection(this.table).select('*').where('id', +id);
+   console.log("databyid",data)
     return data ? data : null;
   }
 
-  async findByParams(params: object): Promise<unknown> {
+  async findByParams(params: object): Promise<object | null> {
     console.log("data find by param params",params)
     const data = await connection(this.table).select("*").where(params);
     console.log("data find by param",data)
     return data ? data : null;
   }
 
-  async save(data: object): Promise<Array<object> | null> {
+  async save(data: object): Promise<object | null> {
     const result = await connection(this.table).insert(data).returning("*");
     return result;
   }
 
-  async updateById(id: number, data: object): Promise<Array<object> | null> {
+  async updateById(id: string, data: object): Promise<object | null> {
     const result = await connection(this.table)
       .update(data)
-      .where({ id })
+      .where({ id : +id})
       .returning("*");
 
     return result;
   }
 
-  async removeById(id: number): Promise<number | null> {
-    const result = await connection(this.table).delete().where({ id });
+  async removeById(id: string): Promise<number | null> {
+    const result = await connection(this.table).delete().where({ id : +id });
     return result;
   }
 

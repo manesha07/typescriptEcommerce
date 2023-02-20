@@ -15,9 +15,12 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 import { uploadImage } from "./controllers/productController.js";
 
-console.log("router", process.env.PORT);
-
 const router = Router();
+router.put(
+  "/:adminIdentifier",
+  validateBody(editAdminSchema),
+  adminController.updateAdmin
+);
 
 router.get("/", adminController.getAllAdmins);
 
@@ -29,11 +32,7 @@ router.post(
   adminController.registerAdmin
 );
 
-router.put(
-  "/:adminIdentifier",
-  validateBody(editAdminSchema),
-  adminController.updateAdmin
-);
+
 
 router.delete("/:adminIdentifier", adminController.deleteAdmin);
 
@@ -62,7 +61,7 @@ router.delete(
 
 router.get("/users/:id", userController.getUserDetails);
 
-router.post("/userRegister/checkout", userController.checkoutUser);
+// router.post("/userRegister/checkout", userController.checkoutUser);
 
 router.get("/products", productController.getAllProducts);
 

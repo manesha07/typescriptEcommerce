@@ -43,9 +43,9 @@ function saveUser(data) {
     });
 }
 exports.saveUser = saveUser;
-function getAllUsers(pageNumber = 1, itemsPerPage = 10) {
+function getAllUsers() {
     return __awaiter(this, void 0, void 0, function* () {
-        const returnedData = yield new user_1.default().getAll(pageNumber, itemsPerPage);
+        const returnedData = yield new user_1.default().getAll("1", "10");
         return {
             data: returnedData,
             message: "Succesfully fetched all data",
@@ -112,7 +112,7 @@ function login(params) {
             currentUser: "user",
         };
         return {
-            data: { user },
+            data: user,
             message: "User/Customer Logged in succesfully",
         };
     });

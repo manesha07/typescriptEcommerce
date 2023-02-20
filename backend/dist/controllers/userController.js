@@ -57,10 +57,8 @@ exports.addUser = addUser;
  * @param {Function} next
  */
 function getAllUsers(req, res, next) {
-    const pageNumber = req.query.page || 1;
-    const itemsPerPage = req.query.limit || 10;
     userService
-        .getAllUsers(pageNumber, itemsPerPage)
+        .getAllUsers()
         .then((data) => res.json(data))
         .catch((err) => next(err));
 }

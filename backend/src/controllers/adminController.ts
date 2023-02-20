@@ -10,7 +10,7 @@ import { AddUsers,UpdateUsers,LoginUsers } from "../types";
  * @param {express.NextFunction} next - middleware function is called if err is thrown
  */
 
-export function addAdmin(req: Request, res: Response, next: NextFunction) {
+export function addAdmin(req: Request, res: Response, next: NextFunction):void {
     const body = req.body as AddUsers;
     adminService.saveAdmin(body)
     .then ((data) => res.status(200).json(data))
@@ -28,7 +28,7 @@ export function addAdmin(req: Request, res: Response, next: NextFunction) {
  */
 
 //details of functions
-export function getAllAdmins(req: Request, res: Response, next: NextFunction) {
+export function getAllAdmins(req: Request, res: Response, next: NextFunction) :void{
   adminService
     .getAllAdmins()
     .then((data) => res.json(data))
@@ -44,7 +44,7 @@ export function getAllAdmins(req: Request, res: Response, next: NextFunction) {
  */
 
 export function updateAdmin(
-  req: Request<{ adminIdentifier: any }>,
+  req: Request<{ adminIdentifier: string }>,
   res: Response,
   next: NextFunction
 ): void {
@@ -63,10 +63,10 @@ export function updateAdmin(
  * @param {express.NextFunction} next  - middleware function is called if err is thrown
  */
 export function deleteAdmin(
-  req: Request<{ adminIdentifier: number }>,
+  req: Request<{ adminIdentifier: string }>,
   res: Response,
   next: NextFunction
-) {
+):void {
   adminService
     .deleteAdminById(req.params.adminIdentifier)
     .then((data) => res.json(data))
@@ -82,7 +82,7 @@ export function deleteAdmin(
  */
 
 
-export function login(req: Request, res: Response, next: NextFunction) {
+export function login(req: Request, res: Response, next: NextFunction) :void{
     const body = req.body as LoginUsers;
     adminService
       .login(body)
@@ -97,7 +97,7 @@ export function login(req: Request, res: Response, next: NextFunction) {
  * @param {express.Response} res - send the response back to the client
  * @param {express.NextFunction} next  - middleware function is called if err is thrown
  */
-export function registerAdmin(req: Request, res: Response, next: NextFunction) {
+export function registerAdmin(req: Request, res: Response, next: NextFunction):void {
   adminService
     .saveAdmin(req.body)
     .then((data) => res.json(data))

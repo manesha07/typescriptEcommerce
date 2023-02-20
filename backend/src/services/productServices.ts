@@ -1,20 +1,13 @@
 import Boom from "@hapi/boom";
 import Product from "../models/product";
-import { ExistingProduct ,UpdateProduct} from "../types";
+import { ExistingProduct ,UpdateProduct,ProductData} from "../types";
 
-export interface ProductData {
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  category: string;
-  images: string;
-}
+
 //Create Product-- only for Admin
 export async function createProduct(
   data: ProductData
-): Promise<{ data: any; message: string }> {
-  const insertedData = await new Product().save(data);
+): Promise<{ data: ExistingProduct[]; message: string }> {
+  const insertedData = await new Product().save(data) as ExistingProduct[];
 console.log("inserted data",insertedData)
   return {
     data: insertedData,
@@ -23,11 +16,9 @@ console.log("inserted data",insertedData)
 }
 
 //******************** Get all products ********************//
-export async function getAllProducts(
-pageNumber = 1,  itemsPerPage = 12
-): Promise<{ data: object; message: string }> {
+export async function getAllProducts(): Promise<{ data: object; message: string }> {
 
-const data = await new Product().getAll(pageNumber, itemsPerPage);
+const data = await new Product().getAll("1", "12");
 if (!data) {
 throw Boom.badRequest("Product not Found");
 }
@@ -38,8 +29,9 @@ message: "Find all Products successfully",
 }
 
 // Get product details
-export async function getProductDetails(id: number): Promise<{ data: object; message: string }> {
-const insertedData = await new Product().getById(id);
+export async function getProductDetails(id: string): Promise<{ data:ExistingProduct; message: string }> {
+const insertedData = await new Product().getById(id) as ExistingProduct;
+console.log("productservices getbyid", insertedData)
 if (!insertedData) {
 throw Boom.badRequest("Product not Found");
 }
@@ -51,9 +43,9 @@ message: "Find Product successfully",
 
 //Update product -- only for Admin
 export async function updateProduct(
-  id: number,
+  id: string,
   data: UpdateProduct
-): Promise<{ data: any; message: string }> {
+): Promise<{ data: ExistingProduct; message: string }> {
   const oldData = await new Product().findByParams({ id: id }) as ExistingProduct;
 
   const updatedData: ProductData = {
@@ -65,7 +57,7 @@ export async function updateProduct(
     images: data.images || oldData.images,
   };
 
-  const insertedData = await new Product().updateById(id, updatedData);
+  const insertedData = await new Product().updateById(id, updatedData) as ExistingProduct;
   if (!insertedData) {
     throw Boom.badRequest("Product not Found");
   }
@@ -77,8 +69,8 @@ export async function updateProduct(
 
 // Delete product
 export async function deleteProduct(
-  id: number
-): Promise<{ data:any; message: string }> {
+  id: string
+): Promise<{ data:number | null; message: string }> {
   const returnedData = await new Product().removeById(id);
 
   return {

@@ -1,9 +1,9 @@
 import Boom from "@hapi/boom";
 
 import User from "../models/user";
-import { ExistingUser,UpdateUsers } from "../types";
+import { ExistingUser,UpdateUsers,UserType } from "../types";
 
-export async function registerUser(data: object) {
+export async function registerUser(data: object) :Promise<{data:ExistingUser,message:string}> {
   const existingUser = await new User().findByParams(data);
   if (existingUser) {
     throw Boom.badRequest("User already exist");
@@ -12,12 +12,12 @@ export async function registerUser(data: object) {
   const insertedData = await new User().save(data);
 
   return {
-    data: insertedData,
+    data: insertedData as ExistingUser,
     message: "Added User successfully",
   };
 }
 
-export async function saveUser(data: object) {
+export async function saveUser(data: object) :Promise<{data:ExistingUser,message:string}>{
   const existingUser = await new User().findByParams(data);
   if (existingUser) {
     throw Boom.badRequest("User already exist");
@@ -26,32 +26,32 @@ export async function saveUser(data: object) {
   const insertedData = await new User().save(data);
 
   return {
-    data: insertedData,
+    data: insertedData as ExistingUser,
     message: "Added User/customer sucessfully",
   };
 }
 
-export async function getAllUsers(pageNumber = 1, itemsPerPage = 10) {
-  const returnedData = await new User().getAll(pageNumber, itemsPerPage);
+export async function getAllUsers():Promise<{data:ExistingUser[],message:string}> {
+  const returnedData = await new User().getAll("1", "10");
 
   return {
-    data: returnedData,
+    data: returnedData as ExistingUser[],
     message: "Succesfully fetched all data",
   };
 }
 
-export async function getUserDetails(id: number) {
+export async function getUserDetails(id: string):Promise<{data:ExistingUser,message:string}> {
   const insertedData = await new User().getById(id);
   if (!insertedData) {
     throw Boom.badRequest("User not Found");
   }
   return {
-    data: insertedData,
+    data: insertedData as ExistingUser,
     message: "Find User sucessfully",
   };
 }
 
-export async function updateUserById(id: number, data: UpdateUsers ) {
+export async function updateUserById(id: string, data: UpdateUsers ):Promise<{data:ExistingUser,message:string}> {
   const oldData = await new User().findByParams({ id: id }) as ExistingUser;
 
   const updatedData = {
@@ -63,16 +63,16 @@ export async function updateUserById(id: number, data: UpdateUsers ) {
   const returnedData = await new User().updateById(id, updatedData);
 
   return {
-    data: returnedData,
+    data: returnedData as ExistingUser,
     message: "Succesfully updated user",
   };
 }
 
-export async function deleteUserById(id: number) {
+export async function deleteUserById(id: string):Promise<{data:number,message:string}> {
   const returnedData = await new User().removeById(id);
 
   return {
-    data: returnedData,
+    data: returnedData as number,
     message: "Succesfully deleted customer/user",
   };
 }
@@ -83,8 +83,10 @@ export async function deleteUserById(id: number) {
  * @param {Object} params
  * @return {Object}
  */
-export async function login(params: object) {
-  const existingUser : any= await new User().findByParams(params);
+
+
+export async function login(params: object):Promise<{data:UserType,message:string}> {
+  const existingUser = await new User().findByParams(params) as ExistingUser;
   if (!existingUser) {
     throw new (Boom.badRequest as any)("Invalid credentials");
   }
@@ -97,7 +99,7 @@ export async function login(params: object) {
   };
 
   return {
-    data: { user },
+    data: user as UserType ,
     message: "User/Customer Logged in succesfully",
   };
 }

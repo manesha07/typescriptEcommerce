@@ -17,7 +17,7 @@ export interface ExistingUser {
  * @returns
  */
 
-export async function saveAdmin(data :AddUsers) {
+export async function saveAdmin(data :AddUsers) :Promise<{data:ExistingUser,message:string}>{
     const {name,username,password,email} =data as ExistingUser;
     const existingUser  = await new Admin().findByParams({name:name ,username:username,email:email}) as ExistingUser[];
     console.log("existing users",existingUser)
@@ -37,7 +37,7 @@ export async function saveAdmin(data :AddUsers) {
   });
 
   return {
-    data: insertedData,
+    data: insertedData as ExistingUser,
     message: "Added Admin sucessfully",
   };
 }
@@ -47,7 +47,7 @@ export async function saveAdmin(data :AddUsers) {
  *
  * @returns {Object} {data: returnedData ,message: 'Succesfully fetched all data'}
  */
-export async function getAllAdmins() {
+export async function getAllAdmins() :Promise<{data:ExistingUser[],message:string}> {
   const returnedData = await new Admin().getAll1() as ExistingUser[];
 
   return {
@@ -64,8 +64,8 @@ export async function getAllAdmins() {
  * @returns {Object}{data: returnedData,message: 'Succesfully updated admin'}
  */
 
-export async function updateAdminById(id :number,data :UpdateUsers) {
-    const returnedData = await new Admin().updateById(id,data) as ExistingUser[];
+export async function updateAdminById(id :string,data :UpdateUsers)  :Promise<{data:ExistingUser,message:string}>{
+    const returnedData = await new Admin().updateById(id,data) as ExistingUser;
 
   return {
     data: returnedData,
@@ -79,11 +79,11 @@ export async function updateAdminById(id :number,data :UpdateUsers) {
  * @param {Number} id - id of admin to delete
  * @returns {Object} { data: 1,message: 'Succesfully deleted admin'}
  */
-export async function deleteAdminById(id: number)  {
+export async function deleteAdminById(id: string)  :Promise<{data:number,message:string}> {
   const returnedData = await new Admin().removeById(id);
 
   return {
-    data: returnedData,
+    data: returnedData as number ,
     message: "Succesfully deleted admin",
   };
 }
@@ -96,32 +96,30 @@ export async function deleteAdminById(id: number)  {
  */
 
 interface LoginUser {
-  id: number;
+  id?: number;
   name: string;
   email: string;
   currentUser: string
 }
+export interface LoginResponse {
+  token:string;
+  user:LoginUser
+}
 
-export async function login(params:LoginUsers) {
+export async function login(params :LoginUsers) :Promise<{data:LoginResponse,message:string}> {
     const { username, password } = params;
 
-     if (!username || !password) {
-       return {
-         message: "Please enter username and password",
-       };
-          }
+          const existingUser = await new Admin().findByParams({ username:username, password:password}) as ExistingUser;
 
-          const existingUser : any = await new Admin().findByParams({ username:username, password:password}) as ExistingUser[];
-
-            if (existingUser) {
-              throw Boom.badRequest("User already exist");
+            if (!existingUser) {
+              throw Boom.badRequest("User does not exist");
             }
-    const doesPasswordMatch = compare(password , existingUser.password);
+    // const doesPasswordMatch = compare(password , existingUser.password);
   
-    if (!doesPasswordMatch) {
+    // if (!doesPasswordMatch) {
   
-      throw new (Boom.badRequest as any)('Invalid credentials');
-    }
+    //   throw new (Boom.badRequest as any)('Invalid credentials');
+    // }
 
     const user : LoginUser = {
       id: existingUser.id,
@@ -131,6 +129,7 @@ export async function login(params:LoginUsers) {
     };
   
     const token :string= createToken(user);
+
 
   return {
     data: { token, user },

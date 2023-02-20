@@ -22,6 +22,12 @@ export interface ErrorResponse {
 
 export type Response = SuccessResponse | ErrorResponse;
 
+export interface SuccessIdResponse {
+  data: object;
+  message?: string;
+}
+export type IdResponse = SuccessIdResponse | ErrorResponse;
+
 export interface ProductType {
   i?: number;
   id: number;
@@ -30,6 +36,7 @@ export interface ProductType {
   price: number;
   stock: number;
   images: string;
+  category?:string
 }
 
 export interface CartProductType {

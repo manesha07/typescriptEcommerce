@@ -28,9 +28,9 @@ function createProduct(data) {
 }
 exports.createProduct = createProduct;
 //******************** Get all products ********************//
-function getAllProducts(pageNumber = 1, itemsPerPage = 12) {
+function getAllProducts() {
     return __awaiter(this, void 0, void 0, function* () {
-        const data = yield new product_1.default().getAll(pageNumber, itemsPerPage);
+        const data = yield new product_1.default().getAll("1", "12");
         if (!data) {
             throw boom_1.default.badRequest("Product not Found");
         }
@@ -45,6 +45,7 @@ exports.getAllProducts = getAllProducts;
 function getProductDetails(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const insertedData = yield new product_1.default().getById(id);
+        console.log("productservices getbyid", insertedData);
         if (!insertedData) {
             throw boom_1.default.badRequest("Product not Found");
         }
