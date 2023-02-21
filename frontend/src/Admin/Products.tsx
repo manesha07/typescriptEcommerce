@@ -23,7 +23,7 @@ const Products: React.FC = () => {
       });
   }, []);
 
-  const Delete = (id : Number) => {
+  const Delete = (id : number) => {
     fetch(`${process.env.REACT_APP_API_URL}/products/${id}`, {
       method: "DELETE",
       headers : headers as HeadersInit,
@@ -59,7 +59,7 @@ const Products: React.FC = () => {
   );
 
   // Change page
-  const paginate = (pageNumber:Number) =>  setCurrentPage(Number(pageNumber));
+  const paginate = (pageNumber:number) =>  setCurrentPage(Number(pageNumber));
 
   
   return (

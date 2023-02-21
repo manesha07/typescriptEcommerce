@@ -2,7 +2,8 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-export function up(knex:any) {
+import Knex, { knex } from "knex";
+export function up(knex : knex): Knex.SchemaBuilder {
   return knex.schema.createTable("checkout", (table:any) => {
     table.increments("id").primary().unsigned();
     table.string("name", 100).notNull();

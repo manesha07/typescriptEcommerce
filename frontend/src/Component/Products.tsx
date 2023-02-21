@@ -1,4 +1,5 @@
 import axios from "axios";
+import React, { Component }  from 'react';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductType } from "src/typedeclaration";
@@ -25,7 +26,7 @@ const Products = () => {
     indexOfLastProduct
   );
 
-  const paginate = (pageNumber: Number) => setCurrentPage(Number(pageNumber));
+  const paginate = (pageNumber: number) => setCurrentPage(Number(pageNumber));
 
   return (
     <>

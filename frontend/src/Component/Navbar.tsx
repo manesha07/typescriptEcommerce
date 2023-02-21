@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { authService } from "../authentication/authentication";
 import { CartProductType } from "src/typedeclaration";
+import React, { Component }  from 'react';
 // import img from '../image/e.png';
 
 type Params = {

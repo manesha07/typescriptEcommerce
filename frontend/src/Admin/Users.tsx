@@ -55,7 +55,7 @@ const Users = () => {
   const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
 
   // Change page
-  const paginate = (pageNumber: Number) => setCurrentPage(Number(pageNumber));
+  const paginate = (pageNumber: number) => setCurrentPage(Number(pageNumber));
 
   return (
     <>

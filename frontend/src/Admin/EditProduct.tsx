@@ -4,6 +4,7 @@ import { ToastContainer} from 'react-toastify';
 import * as notify from "../utils/notify";
 import axios from "axios";
 import { Response } from 'src/typedeclaration';
+import React, { Component }  from 'react';
 
 interface FormData {
   name: string;

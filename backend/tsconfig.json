@@ -16,5 +16,9 @@
     "exclude": [
       "node_modules",
       "**/*.spec.ts"
+    ],   
+     "types": [
+      "@types/node",
+      "@types/knex"
     ]
   }

@@ -5,7 +5,7 @@ import axios from "axios";
 import { Response } from "src/typedeclaration";
 import { FormEvent } from "react";
 
-const AddProduct: React.FC<{}> = () => {
+const AddProduct: React.FC = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<File | null>(null);

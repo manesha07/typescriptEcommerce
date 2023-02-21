@@ -40,6 +40,8 @@ const configuration = {
 //     stub: "./stub/seed.stub",
 //   },
 // };
+
+
 export const connection = Knex(configuration);
 export default configuration;
 

@@ -1,6 +1,7 @@
 import Products from "./Products";
 import Hero from "./Hero";
 import HeroPage from "./HeroPage";
+import React, { Component }  from 'react';
 
 export const Home = () => {
   return (

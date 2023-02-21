@@ -3,10 +3,10 @@
  * @returns { Promise<void> }
  */
 
-import Knex from 'knex';
+import {Knex} from 'knex';
 
-export function up(knex: any): Promise<void> {
-  return knex.schema.createTable('product', (table:any) => {
+export function up(knex:Knex) :Promise<void> {
+  return knex.schema.createTable('product', (table:Knex.TableBuilder) => {
     table.increments('id').primary().unsigned();
     table.string('name', 100).notNullable();
     table.string('description', 100).notNullable();
@@ -20,6 +20,6 @@ export function up(knex: any): Promise<void> {
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-export function down(knex:any) {
+export function down(knex :Knex) :Promise<void>{
     return knex.schema.dropTable('product');
   }
